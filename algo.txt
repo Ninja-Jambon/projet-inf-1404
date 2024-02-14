@@ -1,0 +1,11 @@
+Setup:
+- Taille de la grille
+- Obstacles
+- Départ du rayon (avec l'orientation)
+- Point d'arrivée
+
+Déplacement:
+- A chaque position on teste à gauche, à droite et en face
+ - Si en face, ne pas mettre de miroir et continuer
+ - Si a gauche ou à droite, mettre un miroir
+ - Si aucune solution, retour en arrirère (backtrack)
