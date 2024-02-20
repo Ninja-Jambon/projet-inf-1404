@@ -1,0 +1,20 @@
+Setup:
+- Taille de la grille
+- Obstacles
+- Départ du rayon (avec l'orientation)
+- Point d'arrivée
+
+Déplacement:
+- A chaque position on teste à gauche, à droite et en face
+ - Si en face, ne pas mettre de miroir et continuer
+ - Si a gauche ou à droite, mettre un miroir
+ - Si aucune solution, retour en arrirère (backtrack)
+ - Exceptions:
+  - Impossible de mettre un miroir sur un rayon déjà existant
+  - Impossible de viser la base du laser
+  - Impossible de finir dans un cul de sac (sauf si fin)
+  - /!\ attention aux cases vides non accessibles 
+
+Condition de fin:
+- Si la pile est vide cela veut dire que toute les possibilités ont été testés et donc on renvoie la meilleure
+- La meilleur solution est celle qui remplie le plus de cases vides avec le moins de miroirs
