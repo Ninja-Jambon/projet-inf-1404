@@ -41,6 +41,10 @@ public class Universe {
         else {}
     }
 
+    public boolean isSolved() {
+        
+    }
+
     public void print() {
         int i, j;
         for (i = 0; i < this.height; i++) {
