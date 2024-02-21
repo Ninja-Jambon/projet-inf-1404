@@ -8,29 +8,38 @@ public class Universe {
 
     // Constructors
 
-    public Universe(int length, int height) {
+    public Universe(int length, int height, int i_start, int j_start, int dir_start) {
         this.grid = new int[height][length];
         this.height = height;
         this.length = length;
         int i, j;
         for (i = 1; i < this.height - 1; i++) {
             for (j = 1; j < this.length - 1; j++) {
-                grid[i][j] = 0;
+                this.grid[i][j] = 0;
             }
         }
 
         for (i = 0; i < this.height; i++) {
-            grid[i][0] = -1;
-            grid[i][length - 1] = -1;
+            this.grid[i][0] = -1;
+            this.grid[i][length - 1] = -1;
         }
 
         for (j = 0; j < this.length; j++) {
-            grid[0][j] = -1;
-            grid[height - 1][j] = -1;
+            this.grid[0][j] = -1;
+            this.grid[height - 1][j] = -1;
         }
+
+        this.grid[i_start][j_start] = dir_start;
     }
 
     // Methods
+
+    public void addObstacle(int pos_i, int pos_j) {
+        if (this.grid[pos_i][pos_j] == 0) {
+            this.grid[pos_i][pos_j] = -1;
+        }
+        else {}
+    }
 
     public void print() {
         int i, j;

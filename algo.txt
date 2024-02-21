@@ -24,3 +24,13 @@ Le truc avec la pile:
  - position i sur le plateau
  - position j sur le plateau
  - n le nombre de choix testés pour cette situation (de 0 à 3)
+
+types de cases:
+-  0 case vide
+- -1 obstacle
+-  2 miroir gauche
+-  3 miroir droite
+-  10 départ nord
+-  11 départ sud
+-  12 départ est
+-  13 départ ouest
