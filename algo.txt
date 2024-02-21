@@ -17,4 +17,10 @@ Déplacement:
 
 Condition de fin:
 - Si la pile est vide cela veut dire que toute les possibilités ont été testés et donc on renvoie la meilleure
-- La meilleur solution est celle qui remplie le plus de cases vides avec le moins de miroirs
+- La meilleure solution est celle qui remplie le plus de cases vides avec le moins de miroirs
+
+Le truc avec la pile:
+- Situation:
+ - position i sur le plateau
+ - position j sur le plateau
+ - n le nombre de choix testés pour cette situation (de 0 à 3)
