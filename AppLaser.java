@@ -1,39 +1,35 @@
 // Antoine CRETUAL, Lukian LEIZOUR, 14/02/2024
 
 public class AppLaser {
-    
     public static void main(String [] args) {
-        int start_i = 3;
-        int start_j = 1;
-        int start_dir = 10;
-        int firstState_i = 0;
-        int firstState_j = 0;
 
-        if (start_dir == 10) {
-            firstState_i = start_i - 1;
-            firstState_j = start_j;
-        }
-        else if (start_dir == 11) {
-            firstState_i = start_i + 1;
-            firstState_j = start_j;
-        }
-        else if (start_dir == 12) {
-            firstState_i = start_i;
-            firstState_j = start_j + 1;
-        }
-        else if (start_dir == 13) {
-            firstState_i = start_i;
-            firstState_j = start_j - 1;
-        }
+        // definitions of the starting position and the universe dimensions
 
+        int start_i         = 3;
+        int start_j         = 1;
+        int start_dir       = 11;
+        int universe_width  = 6;
+        int universe_height = 6;
+        int firstState_i    = start_i;
+        int firstState_j    = start_j;
+
+        if (start_dir == 10)      firstState_i = start_i - 1;
+        else if (start_dir == 11) firstState_i = start_i + 1;
+        else if (start_dir == 12) firstState_j = start_j + 1;
+        else if (start_dir == 13) firstState_j = start_j - 1;
+
+        // creation of the stack, the universe and the first state
 
         Stack <Situation> stack = new Stack <Situation>(); 
+        Universe universe = new Universe(universe_width + 2, universe_height + 2, start_i, start_j, start_dir);
+        Situation currentState = new Situation(firstState_i, firstState_j, start_dir, 0);
 
-        Universe universe = new Universe(8, 8, start_i, start_j, start_dir);
+        // obstacles creation
 
-        Situation previousState, currentState = new Situation(firstState_i, firstState_j, start_dir, 0);
-
-        //universe.addObstacle(4, 4);
+        universe.addObstacle(2, 3);
+        universe.addObstacle(3, 3);
+        universe.addObstacle(2, 4);
+        universe.addObstacle(3, 4);
 
         universe.print();
 

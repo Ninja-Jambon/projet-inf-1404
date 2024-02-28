@@ -4,42 +4,35 @@ public class Universe {
     // Atributes
 
     private int[][] grid;
-    private int length, height;
+    private int width, height;
     private int boxes_to_fill;
 
     // Constructors
 
-    public Universe(int length, int height, int i_start, int j_start, int dir_start) {
-        this.grid = new int[height][length];
+    public Universe(int width, int height, int i_start, int j_start, int dir_start) {
+        this.grid = new int[height][width];
         this.height = height;
-        this.length = length;
+        this.width = width;
+        this.boxes_to_fill = (width - 2) * (height - 2) - 1;
 
         int i, j;
         for (i = 1; i < this.height - 1; i++) {
-            for (j = 1; j < this.length - 1; j++) {
+            for (j = 1; j < this.width - 1; j++) {
                 this.grid[i][j] = 0;
             }
         }
 
         for (i = 0; i < this.height; i++) {
             this.grid[i][0] = -1;
-            this.grid[i][length - 1] = -1;
+            this.grid[i][width - 1] = -1;
         }
 
-        for (j = 0; j < this.length; j++) {
+        for (j = 0; j < this.width; j++) {
             this.grid[0][j] = -1;
             this.grid[height - 1][j] = -1;
         }
 
         this.grid[i_start][j_start] = dir_start;
-
-        this.boxes_to_fill = 0;
-
-        for (i = 1; i < this.height - 1; i++) {
-            for (j = 1; j < this.length - 1; j++) {
-                if (this.grid[i][j] == 0) this.boxes_to_fill++;
-            }
-        }
     }
 
     // Methods
@@ -47,6 +40,7 @@ public class Universe {
     public void addObstacle(int pos_i, int pos_j) {
         if (this.grid[pos_i][pos_j] == 0) {
             this.grid[pos_i][pos_j] = -1;
+            this.boxes_to_fill--;
         }
         else {}
     }
@@ -151,23 +145,7 @@ public class Universe {
         int d = s.direction;
         int c = possibleChoices(s);
 
-        // adding the miror
-
-        /*switch (c) {
-            case 1:
-                this.grid[i][j] = 1;
-                break;
-
-            case 2:
-                this.grid[i][j] = 2;
-                break;
-
-            case 3:
-                this.grid[i][j] = 3;
-                break;
-
-            default:
-        }*/
+        // new status of the box
 
         if (c == 1 && (d == 10 || d == 11)) this.grid[i][j] = 1;
         if (c == 1 && (d == 12 || d == 13)) this.grid[i][j] = 2;
@@ -207,14 +185,10 @@ public class Universe {
         return this.boxes_to_fill - 1 == 0;
     }
 
-    /*public Situation restore(Situation current, Situation prev) {
-        
-    }*/
-
     public void print() {
         int i, j;
         for (i = 0; i < this.height; i++) {
-            for (j = 0; j < this.length; j++) {
+            for (j = 0; j < this.width; j++) {
                 switch (this.grid[i][j]) {
                     case -1: 
                         System.out.printf("  X");
@@ -258,7 +232,6 @@ public class Universe {
 
                     default:
                         System.out.printf("%3d", this.grid[i][j]);
-
                 }
             }
             System.out.print("\n");
