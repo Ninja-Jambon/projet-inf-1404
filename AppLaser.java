@@ -5,15 +5,15 @@ public class AppLaser {
 
         // definitions of the starting position and the universe dimensions
 
-        int start_i         = 3;
-        int start_j         = 1;
-        int start_dir       = 11;
-        int universe_width  = 6;
-        int universe_height = 6;
-        int firstState_i    = start_i;
-        int firstState_j    = start_j;
+        int start_i           = 3;
+        int start_j           = 1;
+        int start_dir         = 11;
+        int universe_width    = 6;
+        int universe_height   = 6;
+        int firstState_i      = start_i;
+        int firstState_j      = start_j;
 
-        if (start_dir == 10)      firstState_i = start_i - 1;
+        if      (start_dir == 10) firstState_i = start_i - 1;
         else if (start_dir == 11) firstState_i = start_i + 1;
         else if (start_dir == 12) firstState_j = start_j + 1;
         else if (start_dir == 13) firstState_j = start_j - 1;
