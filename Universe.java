@@ -42,7 +42,7 @@ public class Universe {
     }
 
     public boolean isSolved() {
-        
+        return true;
     }
 
     public void print() {
