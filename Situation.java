@@ -3,7 +3,7 @@
 public class Situation {
 	// Atributes 
 
-	private int pos_i, pos_j, direction, nb_choix;
+	public int pos_i, pos_j, direction, nb_choix;
 
 	// Constructors
 

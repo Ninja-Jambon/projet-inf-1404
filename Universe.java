@@ -45,11 +45,179 @@ public class Universe {
         return true;
     }
 
+    public int possibleChoices(Situation s) {
+        int i = s.pos_i;
+        int j = s.pos_j;
+        int d = s.direction;
+        int c = s.nb_choix;
+
+        switch (c) {
+            case 0: {
+                switch (d) {
+                    case 10:  // north
+                        if (this.grid[i - 1][j] == 0) return 1;         // front
+                        else if (this.grid[i][j - 1] == 0) return 2;    // left
+                        else if (this.grid[i][j + 1] == 0) return 3;    // right
+                        else return -1;                                 // back
+
+                    case 11:  // south
+                        if (this.grid[i + 1][j] == 0) return 1;         // front
+                        else if (this.grid[i][j + 1] == 0) return 2;    // left
+                        else if (this.grid[i][j - 1] == 0) return 3;    // right
+                        else return -1;                                 // back
+
+                    case 12:  // east
+                        if (this.grid[i][j + 1] == 0) return 1;         // front
+                        else if (this.grid[i - 1][j] == 0) return 2;    // left
+                        else if (this.grid[i + 1][j] == 0) return 3;    // right
+                        else return -1;                                 // back
+
+                    case 13:  //west
+                        if (this.grid[i][j - 1] == 0) return 1;         // front
+                        else if (this.grid[i + 1][j] == 0) return 2;    // left
+                        else if (this.grid[i - 1][j] == 0) return 3;    // right
+                        else return -1;                                 // back
+
+                    default: {}
+                }
+            }
+            case 1: {
+                switch (d) {
+                    case 10:  // north
+                        if (this.grid[i][j - 1] == 0) return 2;         // left
+                        else if (this.grid[i][j + 1] == 0) return 3;    // right
+                        else return -1;                                 // back
+
+                    case 11:  // south
+                        if (this.grid[i][j + 1] == 0) return 2;         // left
+                        else if (this.grid[i][j - 1] == 0) return 3;    // right
+                        else return -1;                                 // back
+
+                    case 12:  // east
+                        if (this.grid[i - 1][j] == 0) return 2;         // left
+                        else if (this.grid[i + 1][j] == 0) return 3;    // right
+                        else return -1;                                 // back
+
+                    case 13:  //west
+                        if (this.grid[i + 1][j] == 0) return 2;    // left
+                        else if (this.grid[i - 1][j] == 0) return 3;    // right
+                        else return -1;                                 // back
+
+                    default: {}
+                }
+            }
+            case 2: {
+                switch (d) {
+                    case 10:  // north
+                        if (this.grid[i][j + 1] == 0) return 3;         // right
+                        else return -1;                                 // back
+
+                    case 11:  // south
+                        if (this.grid[i][j - 1] == 0) return 3;         // right
+                        else return -1;                                 // back
+
+                    case 12:  // east
+                        if (this.grid[i + 1][j] == 0) return 3;         // right
+                        else return -1;                                 // back
+
+                    case 13:  //west
+                        if (this.grid[i - 1][j] == 0) return 3;         // right
+                        else return -1;                                 // back
+
+
+                    default: {}
+                }
+            }
+            case 3:
+                return -1; 
+
+            default: return -1;
+        } 
+    }
+
+    public boolean canEvolve(Situation s) {
+        return possibleChoices(s) != -1; 
+    }
+
+    public Situation evolve(Situation s) {
+        int i = s.pos_i;
+        int j = s.pos_j;
+        int d = s.direction;
+        int c = possibleChoices(s);
+
+        // adding the miror
+
+        switch (c) {
+            case 2:
+                this.grid[i][j] = 2;
+                break;
+
+            case 3:
+                this.grid[i][j] = 3;
+                break;
+
+            default:
+        }
+
+        // changing the position of the situation
+
+        if (c == 1 && d == 10 || c == 2 && d == 12 || c == 3 && d == 13) {
+            i --;
+            d = 10;
+        }
+        else if (c == 1 && d == 11 || c == 2 && d == 13 || c == 3 && d == 12) {
+            i ++;
+            d = 11;
+        }
+        else if (c == 1 && d == 12 || c == 2 && d == 11 || c == 3 && d == 10) {
+            j ++;
+            d = 12;
+        }
+        else if (c == 1 && d == 12 || c == 2 && d == 10 || c == 3 && d == 11) {
+            j --;
+            d = 13;
+        }
+
+        return new Situation(i, j, d, c);
+    }
+
+    public void reset(int i, int j) {
+        this.grid[i][j] = -1;
+    }
+
+    public Situation restore(Situation current, Situation prev) {
+        
+    }
+
     public void print() {
         int i, j;
         for (i = 0; i < this.height; i++) {
             for (j = 0; j < this.length; j++) {
-                System.out.printf("%3d", this.grid[i][j]);
+                switch (this.grid[i][j]) {
+                    case -1: 
+                        System.out.printf("  X");
+                        break;
+
+                    case 10: 
+                        System.out.printf("  ^");
+                        break;
+
+                    case 11: 
+                        System.out.printf("  v");
+                        break;
+
+                    case 12: 
+                        System.out.printf("  >");
+                        break;
+
+                    case 13: 
+                        System.out.printf("  <");
+                        break;
+
+                    default:
+                        System.out.printf("%3d", this.grid[i][j]);
+
+                }
             }
             System.out.print("\n");
         }
