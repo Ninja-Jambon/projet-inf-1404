@@ -17,17 +17,25 @@ public class AppLaser {
 
         universe.print();
 
+        int i = 0;
+
         do {
+            System.out.printf("%d %d %d %d %d", currentState.pos_i, currentState.pos_j, currentState.direction, currentState.nb_choix, universe.possibleChoices(currentState));
+
             if (universe.canEvolve(currentState)) {
                 stack.push(currentState.copy(universe.possibleChoices(currentState)));
                 currentState = universe.evolve(currentState);
             }
             else {
                 currentState = stack.pop();
+                universe.reset(currentState);
+
+                System.out.println("\n\n");
+                universe.print();
             }
 
-            universe.print();
-        } while (stack.size() != 0);
+
+        } while (!universe.isSolved());
     }
 
 }
