@@ -191,43 +191,43 @@ public class Universe {
             for (j = 0; j < this.width; j++) {
                 switch (this.grid[i][j]) {
                     case -1: 
-                        System.out.printf("  X");
+                        System.out.printf(" X");
                         break;
 
                     case 0: 
-                        System.out.printf("   ");
+                        System.out.printf("  ");
                         break;
 
                     case 1: 
-                        System.out.printf("  |");
+                        System.out.printf(" |");
                         break;
 
                     case 2: 
-                        System.out.printf("  -");
+                        System.out.printf(" -");
                         break;
 
                     case 3: 
-                        System.out.printf("  /");
+                        System.out.printf(" /");
                         break;
 
                     case 4: 
-                        System.out.printf("  \\");
+                        System.out.printf(" \\");
                         break;
 
                     case 10: 
-                        System.out.printf("  ^");
+                        System.out.printf(" ^");
                         break;
 
                     case 11: 
-                        System.out.printf("  v");
+                        System.out.printf(" v");
                         break;
 
                     case 12: 
-                        System.out.printf("  >");
+                        System.out.printf(" >");
                         break;
 
                     case 13: 
-                        System.out.printf("  <");
+                        System.out.printf(" <");
                         break;
 
                     default:

@@ -8,8 +8,8 @@ public class AppLaser {
         int start_i           = 3;
         int start_j           = 1;
         int start_dir         = 11;
-        int universe_width    = 6;
-        int universe_height   = 6;
+        int universe_width    = 30;
+        int universe_height   = 12;
         int firstState_i      = start_i;
         int firstState_j      = start_j;
 
@@ -26,10 +26,11 @@ public class AppLaser {
 
         // obstacles creation
 
-        universe.addObstacle(2, 3);
-        universe.addObstacle(3, 3);
-        universe.addObstacle(2, 4);
-        universe.addObstacle(3, 4);
+        //universe.addObstacle(3, 3);
+        //universe.addObstacle(4, 3);
+        //universe.addObstacle(3, 4);
+        //universe.addObstacle(4, 4);
+        //universe.addObstacle(12, 5);
 
         universe.print();
 
