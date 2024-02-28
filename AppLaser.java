@@ -3,23 +3,42 @@
 public class AppLaser {
     
     public static void main(String [] args) {
-        int start_i = 4;
+        int start_i = 3;
         int start_j = 1;
         int start_dir = 12;
+        int firstState_i = 0;
+        int firstState_j = 0;
+
+        if (start_dir == 10) {
+            firstState_i = start_i - 1;
+            firstState_j = start_j;
+        }
+        else if (start_dir == 11) {
+            firstState_i = start_i + 1;
+            firstState_j = start_j;
+        }
+        else if (start_dir == 12) {
+            firstState_i = start_i;
+            firstState_j = start_j + 1;
+        }
+        else if (start_dir == 13) {
+            firstState_i = start_i;
+            firstState_j = start_j - 1;
+        }
+
 
         Stack <Situation> stack = new Stack <Situation>(); 
 
-        Universe universe = new Universe(6, 6, start_i, start_j, start_dir);
+        Universe universe = new Universe(5, 5, start_i, start_j, start_dir);
 
-        Situation previousState, currentState = new Situation(start_i, start_j, start_dir, 0);
+        Situation previousState, currentState = new Situation(firstState_i, firstState_j, start_dir, 0);
 
         //universe.addObstacle(4, 4);
 
         universe.print();
 
         int i = 0;
-
-        do {
+        while (!universe.isSolved()) {
             System.out.printf("%d %d %d %d %d", currentState.pos_i, currentState.pos_j, currentState.direction, currentState.nb_choix, universe.possibleChoices(currentState));
 
             if (universe.canEvolve(currentState)) {
@@ -33,9 +52,6 @@ public class AppLaser {
                 System.out.println("\n\n");
                 universe.print();
             }
-
-
-        } while (!universe.isSolved());
+        }
     }
-
 }

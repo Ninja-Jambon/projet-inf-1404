@@ -13,6 +13,7 @@ public class Universe {
         this.grid = new int[height][length];
         this.height = height;
         this.length = length;
+        
         int i, j;
         for (i = 1; i < this.height - 1; i++) {
             for (j = 1; j < this.length - 1; j++) {
@@ -104,7 +105,7 @@ public class Universe {
                         else return -1;                                 // back
 
                     case 13:  //west
-                        if (this.grid[i + 1][j] == 0) return 2;    // left
+                        if (this.grid[i + 1][j] == 0) return 2;         // left
                         else if (this.grid[i - 1][j] == 0) return 3;    // right
                         else return -1;                                 // back
 
@@ -190,6 +191,7 @@ public class Universe {
 
     public void reset(Situation s) {
         this.grid[s.pos_i][s.pos_j] = 0;
+        this.boxes_to_fill++;
     }
 
     public boolean isSolved() {
