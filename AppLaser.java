@@ -5,7 +5,7 @@ public class AppLaser {
     public static void main(String [] args) {
         int start_i = 3;
         int start_j = 1;
-        int start_dir = 12;
+        int start_dir = 10;
         int firstState_i = 0;
         int firstState_j = 0;
 
@@ -29,7 +29,7 @@ public class AppLaser {
 
         Stack <Situation> stack = new Stack <Situation>(); 
 
-        Universe universe = new Universe(5, 5, start_i, start_j, start_dir);
+        Universe universe = new Universe(8, 8, start_i, start_j, start_dir);
 
         Situation previousState, currentState = new Situation(firstState_i, firstState_j, start_dir, 0);
 
@@ -39,19 +39,25 @@ public class AppLaser {
 
         int i = 0;
         while (!universe.isSolved()) {
-            System.out.printf("%d %d %d %d %d", currentState.pos_i, currentState.pos_j, currentState.direction, currentState.nb_choix, universe.possibleChoices(currentState));
+            System.out.printf("i: %d, j: %d, dir: %d, choice: %d, possible: %d\n", currentState.pos_i, currentState.pos_j, currentState.direction, currentState.nb_choix, universe.possibleChoices(currentState));
 
             if (universe.canEvolve(currentState)) {
                 stack.push(currentState.copy(universe.possibleChoices(currentState)));
                 currentState = universe.evolve(currentState);
             }
-            else {
+            else if (stack.size() > 0) {
                 currentState = stack.pop();
                 universe.reset(currentState);
 
-                System.out.println("\n\n");
-                universe.print();
+                //System.out.println("\n\n");
+                //universe.print();
+            } else {
+                break;
             }
         }
+
+        System.out.println("\n\n");
+
+        universe.print();
     }
 }

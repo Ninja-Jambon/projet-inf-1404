@@ -13,7 +13,7 @@ public class Universe {
         this.grid = new int[height][length];
         this.height = height;
         this.length = length;
-        
+
         int i, j;
         for (i = 1; i < this.height - 1; i++) {
             for (j = 1; j < this.length - 1; j++) {
@@ -61,25 +61,25 @@ public class Universe {
             case 0: {
                 switch (d) {
                     case 10:  // north
-                        if (this.grid[i - 1][j] == 0) return 1;         // front
+                        if (this.grid[i - 1][j] == 0)      return 1;    // front
                         else if (this.grid[i][j - 1] == 0) return 2;    // left
                         else if (this.grid[i][j + 1] == 0) return 3;    // right
                         else return -1;                                 // back
 
                     case 11:  // south
-                        if (this.grid[i + 1][j] == 0) return 1;         // front
+                        if (this.grid[i + 1][j] == 0)      return 1;    // front
                         else if (this.grid[i][j + 1] == 0) return 2;    // left
                         else if (this.grid[i][j - 1] == 0) return 3;    // right
                         else return -1;                                 // back
 
                     case 12:  // east
-                        if (this.grid[i][j + 1] == 0) return 1;         // front
+                        if (this.grid[i][j + 1] == 0)      return 1;    // front
                         else if (this.grid[i - 1][j] == 0) return 2;    // left
                         else if (this.grid[i + 1][j] == 0) return 3;    // right
                         else return -1;                                 // back
 
                     case 13:  //west
-                        if (this.grid[i][j - 1] == 0) return 1;         // front
+                        if (this.grid[i][j - 1] == 0)      return 1;    // front
                         else if (this.grid[i + 1][j] == 0) return 2;    // left
                         else if (this.grid[i - 1][j] == 0) return 3;    // right
                         else return -1;                                 // back
@@ -90,22 +90,22 @@ public class Universe {
             case 1: {
                 switch (d) {
                     case 10:  // north
-                        if (this.grid[i][j - 1] == 0) return 2;         // left
+                        if (this.grid[i][j - 1] == 0)      return 2;    // left
                         else if (this.grid[i][j + 1] == 0) return 3;    // right
                         else return -1;                                 // back
 
                     case 11:  // south
-                        if (this.grid[i][j + 1] == 0) return 2;         // left
+                        if (this.grid[i][j + 1] == 0)      return 2;    // left
                         else if (this.grid[i][j - 1] == 0) return 3;    // right
                         else return -1;                                 // back
 
                     case 12:  // east
-                        if (this.grid[i - 1][j] == 0) return 2;         // left
+                        if (this.grid[i - 1][j] == 0)      return 2;    // left
                         else if (this.grid[i + 1][j] == 0) return 3;    // right
                         else return -1;                                 // back
 
                     case 13:  //west
-                        if (this.grid[i + 1][j] == 0) return 2;         // left
+                        if (this.grid[i + 1][j] == 0)      return 2;    // left
                         else if (this.grid[i - 1][j] == 0) return 3;    // right
                         else return -1;                                 // back
 
@@ -115,19 +115,19 @@ public class Universe {
             case 2: {
                 switch (d) {
                     case 10:  // north
-                        if (this.grid[i][j + 1] == 0) return 3;         // right
+                        if (this.grid[i][j + 1] == 0)      return 3;    // right
                         else return -1;                                 // back
 
                     case 11:  // south
-                        if (this.grid[i][j - 1] == 0) return 3;         // right
+                        if (this.grid[i][j - 1] == 0)      return 3;    // right
                         else return -1;                                 // back
 
                     case 12:  // east
-                        if (this.grid[i + 1][j] == 0) return 3;         // right
+                        if (this.grid[i + 1][j] == 0)      return 3;    // right
                         else return -1;                                 // back
 
                     case 13:  //west
-                        if (this.grid[i - 1][j] == 0) return 3;         // right
+                        if (this.grid[i - 1][j] == 0)      return 3;    // right
                         else return -1;                                 // back
 
 
@@ -154,6 +154,10 @@ public class Universe {
         // adding the miror
 
         switch (c) {
+            case 1:
+                this.grid[i][j] = 1;
+                break;
+
             case 2:
                 this.grid[i][j] = 2;
                 break;
@@ -184,7 +188,7 @@ public class Universe {
             d = 13;
         }
 
-        this.boxes_to_fill++;
+        this.boxes_to_fill--;
 
         return new Situation(i, j, d, 0);
     }
@@ -195,7 +199,7 @@ public class Universe {
     }
 
     public boolean isSolved() {
-        return this.boxes_to_fill == 0;
+        return this.boxes_to_fill - 1 == 0;
     }
 
     /*public Situation restore(Situation current, Situation prev) {
@@ -209,6 +213,10 @@ public class Universe {
                 switch (this.grid[i][j]) {
                     case -1: 
                         System.out.printf("  X");
+                        break;
+
+                    case 1: 
+                        System.out.printf("  +");
                         break;
 
                     case 10: 
