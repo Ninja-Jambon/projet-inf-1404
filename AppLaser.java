@@ -39,7 +39,7 @@ public class AppLaser {
 
         int i = 0;
         while (!universe.isSolved()) {
-            System.out.printf("i: %d, j: %d, dir: %d, choice: %d, possible: %d\n", currentState.pos_i, currentState.pos_j, currentState.direction, currentState.nb_choix, universe.possibleChoices(currentState));
+            //System.out.printf("i: %d, j: %d, dir: %d, choice: %d, possible: %d\n", currentState.pos_i, currentState.pos_j, currentState.direction, currentState.nb_choix, universe.possibleChoices(currentState));
 
             if (universe.canEvolve(currentState)) {
                 stack.push(currentState.copy(universe.possibleChoices(currentState)));
@@ -57,7 +57,6 @@ public class AppLaser {
         }
 
         System.out.println("\n\n");
-
         universe.print();
     }
 }

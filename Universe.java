@@ -153,7 +153,7 @@ public class Universe {
 
         // adding the miror
 
-        switch (c) {
+        /*switch (c) {
             case 1:
                 this.grid[i][j] = 1;
                 break;
@@ -167,7 +167,12 @@ public class Universe {
                 break;
 
             default:
-        }
+        }*/
+
+        if (c == 1 && (d == 10 || d == 11)) this.grid[i][j] = 1;
+        if (c == 1 && (d == 12 || d == 13)) this.grid[i][j] = 2;
+        if ((c == 3 && d == 10) || (c == 3 && d == 11) || (c == 2 && d == 12) || (c == 2 && d == 13)) this.grid[i][j] = 3;
+        if ((c == 2 && d == 10) || (c == 2 && d == 11) || (c == 3 && d == 12) || (c == 3 && d == 13)) this.grid[i][j] = 4;
 
         // changing the position of the situation
 
@@ -215,8 +220,24 @@ public class Universe {
                         System.out.printf("  X");
                         break;
 
+                    case 0: 
+                        System.out.printf("   ");
+                        break;
+
                     case 1: 
-                        System.out.printf("  +");
+                        System.out.printf("  |");
+                        break;
+
+                    case 2: 
+                        System.out.printf("  -");
+                        break;
+
+                    case 3: 
+                        System.out.printf("  /");
+                        break;
+
+                    case 4: 
+                        System.out.printf("  \\");
                         break;
 
                     case 10: 

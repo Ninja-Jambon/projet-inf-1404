@@ -28,9 +28,10 @@ Le truc avec la pile:
 types de cases:
 -  0 case vide
 - -1 obstacle
--  1 laser
--  2 miroir gauche
--  3 miroir droite
+-  1 laser 1
+-  2 laser 2
+-  3 miroir 1
+-  4 miroir 2
 -  10 départ nord
 -  11 départ sud
 -  12 départ est
