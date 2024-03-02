@@ -55,28 +55,28 @@ public class Universe {
             case 0: {
                 switch (d) {
                     case 10:  // north
-                        if (this.grid[i - 1][j] == 0)      return 1;    // front
-                        else if (this.grid[i][j - 1] == 0) return 2;    // left
-                        else if (this.grid[i][j + 1] == 0) return 3;    // right
-                        else return -1;                                 // back
+                        if (this.grid[i - 1][j] == 0 || this.grid[i - 1][j] == 2)  return 1;  // front
+                        else if (this.grid[i][j - 1] == 0 && this.grid[i][j] == 0) return 2;  // left
+                        else if (this.grid[i][j + 1] == 0 && this.grid[i][j] == 0) return 3;  // right
+                        else                                                       return -1; // back
 
                     case 11:  // south
-                        if (this.grid[i + 1][j] == 0)      return 1;    // front
-                        else if (this.grid[i][j + 1] == 0) return 2;    // left
-                        else if (this.grid[i][j - 1] == 0) return 3;    // right
-                        else return -1;                                 // back
+                        if (this.grid[i + 1][j] == 0 || this.grid[i + 1][j] == 2)  return 1;  // front
+                        else if (this.grid[i][j + 1] == 0 && this.grid[i][j] == 0) return 2;  // left
+                        else if (this.grid[i][j - 1] == 0 && this.grid[i][j] == 0) return 3;  // right
+                        else                                                       return -1; // back
 
                     case 12:  // east
-                        if (this.grid[i][j + 1] == 0)      return 1;    // front
-                        else if (this.grid[i - 1][j] == 0) return 2;    // left
-                        else if (this.grid[i + 1][j] == 0) return 3;    // right
-                        else return -1;                                 // back
+                        if (this.grid[i][j + 1] == 0 || this.grid[i][j + 1] == 1)  return 1;  // front
+                        else if (this.grid[i - 1][j] == 0 && this.grid[i][j] == 0) return 2;  // left
+                        else if (this.grid[i + 1][j] == 0 && this.grid[i][j] == 0) return 3;  // right
+                        else                                                       return -1; // back
 
                     case 13:  //west
-                        if (this.grid[i][j - 1] == 0)      return 1;    // front
-                        else if (this.grid[i + 1][j] == 0) return 2;    // left
-                        else if (this.grid[i - 1][j] == 0) return 3;    // right
-                        else return -1;                                 // back
+                        if (this.grid[i][j - 1] == 0 || this.grid[i][j - 1] == 1)  return 1;  // front
+                        else if (this.grid[i + 1][j] == 0 && this.grid[i][j] == 0) return 2;  // left
+                        else if (this.grid[i - 1][j] == 0 && this.grid[i][j] == 0) return 3;  // right
+                        else                                                       return -1; // back
 
                     default: {}
                 }
@@ -84,24 +84,24 @@ public class Universe {
             case 1: {
                 switch (d) {
                     case 10:  // north
-                        if (this.grid[i][j - 1] == 0)      return 2;    // left
-                        else if (this.grid[i][j + 1] == 0) return 3;    // right
-                        else return -1;                                 // back
+                        if (this.grid[i][j - 1] == 0 && this.grid[i][j] == 0)      return 2;  // left
+                        else if (this.grid[i][j + 1] == 0 && this.grid[i][j] == 0) return 3;  // right
+                        else                                                       return -1; // back
 
                     case 11:  // south
-                        if (this.grid[i][j + 1] == 0)      return 2;    // left
-                        else if (this.grid[i][j - 1] == 0) return 3;    // right
-                        else return -1;                                 // back
+                        if (this.grid[i][j + 1] == 0 && this.grid[i][j] == 0)      return 2;  // left
+                        else if (this.grid[i][j - 1] == 0 && this.grid[i][j] == 0) return 3;  // right
+                        else                                                       return -1; // back
 
                     case 12:  // east
-                        if (this.grid[i - 1][j] == 0)      return 2;    // left
-                        else if (this.grid[i + 1][j] == 0) return 3;    // right
-                        else return -1;                                 // back
+                        if (this.grid[i - 1][j] == 0 && this.grid[i][j] == 0)      return 2;  // left
+                        else if (this.grid[i + 1][j] == 0 && this.grid[i][j] == 0) return 3;  // right
+                        else                                                       return -1; // back
 
                     case 13:  //west
-                        if (this.grid[i + 1][j] == 0)      return 2;    // left
-                        else if (this.grid[i - 1][j] == 0) return 3;    // right
-                        else return -1;                                 // back
+                        if (this.grid[i + 1][j] == 0 && this.grid[i][j] == 0)      return 2;  // left
+                        else if (this.grid[i - 1][j] == 0 && this.grid[i][j] == 0) return 3;  // right
+                        else                                                       return -1; // back
 
                     default: {}
                 }
@@ -109,21 +109,20 @@ public class Universe {
             case 2: {
                 switch (d) {
                     case 10:  // north
-                        if (this.grid[i][j + 1] == 0)      return 3;    // right
-                        else return -1;                                 // back
+                        if (this.grid[i][j + 1] == 0 && this.grid[i][j] == 0)      return 3;  // right
+                        else                                                       return -1; // back
 
                     case 11:  // south
-                        if (this.grid[i][j - 1] == 0)      return 3;    // right
-                        else return -1;                                 // back
+                        if (this.grid[i][j - 1] == 0 && this.grid[i][j] == 0)      return 3;  // right
+                        else                                                       return -1; // back
 
                     case 12:  // east
-                        if (this.grid[i + 1][j] == 0)      return 3;    // right
-                        else return -1;                                 // back
+                        if (this.grid[i + 1][j] == 0 && this.grid[i][j] == 0)      return 3;  // right
+                        else                                                       return -1; // back
 
                     case 13:  //west
-                        if (this.grid[i - 1][j] == 0)      return 3;    // right
-                        else return -1;                                 // back
-
+                        if (this.grid[i - 1][j] == 0 && this.grid[i][j] == 0)      return 3;  // right
+                        else                                                       return -1; // back
 
                     default: {}
                 }
@@ -132,7 +131,7 @@ public class Universe {
                 return -1; 
 
             default: return -1;
-        } 
+        }
     }
 
     public boolean canEvolve(Situation s) {
@@ -147,10 +146,24 @@ public class Universe {
 
         // new status of the box
 
-        if (c == 1 && (d == 10 || d == 11)) this.grid[i][j] = 1;
-        if (c == 1 && (d == 12 || d == 13)) this.grid[i][j] = 2;
-        if ((c == 3 && d == 10) || (c == 3 && d == 11) || (c == 2 && d == 12) || (c == 2 && d == 13)) this.grid[i][j] = 3;
-        if ((c == 2 && d == 10) || (c == 2 && d == 11) || (c == 3 && d == 12) || (c == 3 && d == 13)) this.grid[i][j] = 4;
+        if (c == 1 && (d == 10 || d == 11)) {
+            if (this.grid[i][j] == 0) {
+                this.grid[i][j] = 1;
+            } else {
+                this.grid[i][j] = 3;
+                this.boxes_to_fill++;
+            }
+        }
+        if (c == 1 && (d == 12 || d == 13)) {
+            if (this.grid[i][j] == 0) {
+                this.grid[i][j] = 2;
+            } else {
+                this.grid[i][j] = 3;
+                this.boxes_to_fill++;
+            }
+        }
+        if ((c == 3 && d == 10) || (c == 3 && d == 11) || (c == 2 && d == 12) || (c == 2 && d == 13)) this.grid[i][j] = 4;
+        if ((c == 2 && d == 10) || (c == 2 && d == 11) || (c == 3 && d == 12) || (c == 3 && d == 13)) this.grid[i][j] = 5;
 
         // changing the position of the situation
 
@@ -177,12 +190,24 @@ public class Universe {
     }
 
     public void reset(Situation s) {
-        this.grid[s.pos_i][s.pos_j] = 0;
-        this.boxes_to_fill++;
+        int i = s.pos_i;
+        int j = s.pos_j;
+        int d = s.direction;
+
+        if (this.grid[i][j] == 3) {
+            if (d == 10 || d == 11) {
+                this.grid[i][j] = 2;
+            } else {
+                this.grid[i][j] = 1;
+            }
+        } else {
+            this.grid[s.pos_i][s.pos_j] = 0;
+            this.boxes_to_fill++;
+        }
     }
 
     public boolean isSolved() {
-        return this.boxes_to_fill - 1 == 0;
+        return this.boxes_to_fill == 0;
     }
 
     public void print() {
@@ -206,11 +231,15 @@ public class Universe {
                         System.out.printf(" -");
                         break;
 
-                    case 3: 
-                        System.out.printf(" /");
+                    case 3:
+                        System.out.printf(" +");
                         break;
 
                     case 4: 
+                        System.out.printf(" /");
+                        break;
+
+                    case 5: 
                         System.out.printf(" \\");
                         break;
 
@@ -231,7 +260,7 @@ public class Universe {
                         break;
 
                     default:
-                        System.out.printf("%3d", this.grid[i][j]);
+                        System.out.printf("%2d", this.grid[i][j]);
                 }
             }
             System.out.print("\n");
