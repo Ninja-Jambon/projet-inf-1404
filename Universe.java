@@ -210,10 +210,11 @@ public class Universe {
         return this.boxes_to_fill == 0;
     }
 
-    public void print() {
+    public void print(int pos_i, int pos_j) {
         int i, j;
         for (i = 0; i < this.height; i++) {
             for (j = 0; j < this.width; j++) {
+                System.out.print("\033[" + (i + pos_i) + ";" + (j*2 + pos_j) + "H");
                 switch (this.grid[i][j]) {
                     case -1: 
                         System.out.printf(" X");

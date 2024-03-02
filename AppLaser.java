@@ -8,8 +8,8 @@ public class AppLaser {
         int start_i           = 3;
         int start_j           = 1;
         int start_dir         = 11;
-        int universe_width    = 6;
-        int universe_height   = 6;
+        int universe_width    = 21;
+        int universe_height   = 20;
         int firstState_i      = start_i;
         int firstState_j      = start_j;
 
@@ -31,7 +31,11 @@ public class AppLaser {
         universe.addObstacle(2, 4);
         universe.addObstacle(3, 4);
 
-        universe.print();
+
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+
+        universe.print(2, 4);
 
         int i = 0;
         while (!universe.isSolved()) {
@@ -45,15 +49,14 @@ public class AppLaser {
                 currentState = stack.pop();
                 universe.reset(currentState);
 
-                //System.out.println("\n\n");
-                //universe.print();
+                universe.print(universe_height + 6, 4);
             } else {
                 break;
             }
-            universe.print();
+            //universe.print(universe_height + 6, 4);
         }
 
         System.out.println("\n\n");
-        universe.print();
+        universe.print(universe_height + 6, 4);
     }
 }
