@@ -80,9 +80,9 @@ public class AppLaser {
 
                     case 2:
                         System.out.print("Enter the position of the start point in the first axis : ");
-                        start_i = scanner.nextInt() + 1;
+                        start_i = scanner.nextInt();
                         System.out.print("Enter the position of the start point in the seccond axis : ");
-                        start_j = scanner.nextInt() + 1;
+                        start_j = scanner.nextInt();
                         System.out.print("Enter the direction of the start point : ");
                         start_dir = scanner.nextInt();
 
@@ -96,7 +96,7 @@ public class AppLaser {
 
                         currentState = new Situation(firstState_i + 1, firstState_j + 1, start_dir, 0);
 
-                        universe.changeUniverseStart(start_i, start_j, start_dir);
+                        universe.changeUniverseStart(start_i + 1, start_j + 1, start_dir);
 
                         break;
 
