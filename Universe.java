@@ -133,6 +133,16 @@ public class Universe {
         this.grid = newgrid;
         this.width = width;
         this.height = height;
+
+        this.boxes_to_fill = 0;
+
+        for (int i = 1; i < height - 1; i++) {
+            for (int j = 1; j < width - 1; j++) {
+                if (this.grid[i][j] == 0) {
+                    this.boxes_to_fill ++;
+                }
+            }
+        }
     }
 
     public void changeUniverseStart(int pos_i, int pos_j, int dir) {

@@ -1,16 +1,21 @@
 // Antoine CRETUAL, Lukian LEIZOUR, 14/02/2024
 
 import java.util.Scanner;
+import java.time.Instant;
 
 public class AppLaser {
     public static void main(String [] args) {
 
-        boolean cli = false;
+        boolean cli = false, optimize_duration = false;
 
         for (int i = 0; i < args.length; i++) {
             switch (args[i]) {
                 case "-cli":
                     cli = true;
+                    break;
+
+                case "--optimize-duration":
+                    optimize_duration = true;
                     break;
 
                 default:
@@ -159,6 +164,8 @@ public class AppLaser {
 
                         universe.print(2, 4);
 
+                        int start_time = (int) Instant.now().getEpochSecond();
+
                         while (!universe.isSolved()) {
                             if (universe.canEvolve(currentState)) {
                                 stack.push(currentState.copy(universe.possibleChoices(currentState)));
@@ -174,10 +181,20 @@ public class AppLaser {
                             } else {
                                 break;
                             }
+
+                            if ((int) Instant.now().getEpochSecond() - start_time > 60 && optimize_duration == true) {
+                                display_progress = false;
+                            }
+                            if ((int) Instant.now().getEpochSecond() - start_time > 2 * 60 && optimize_duration == true) {
+                                display_regress = false;
+                            }
                         }
 
                         System.out.println("\n\n");
+
                         universe.print(universe_height + 6, 4);
+
+                        System.out.println("\nSolved in " + ((int) Instant.now().getEpochSecond() - start_time) + " secconds");
 
                         System.out.print("\033[?25h");
                         System.out.print("\nEnter anything to continue....");
