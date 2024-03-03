@@ -37,6 +37,98 @@ public class Universe {
 
     // Methods
 
+    public void print(int pos_i, int pos_j) {
+        int i, j;
+        for (i = 0; i < this.height; i++) {
+            for (j = 0; j < this.width; j++) {
+                System.out.print("\033[" + (i + pos_i) + ";" + (j*2 + pos_j) + "H");
+                switch (this.grid[i][j]) {
+                    case -1: 
+                        System.out.printf(" X");
+                        break;
+
+                    case 0: 
+                        System.out.printf("  ");
+                        break;
+
+                    case 1: 
+                        System.out.printf(" |");
+                        break;
+
+                    case 2: 
+                        System.out.printf(" -");
+                        break;
+
+                    case 3:
+                        System.out.printf(" +");
+                        break;
+
+                    case 4: 
+                        System.out.printf(" /");
+                        break;
+
+                    case 5: 
+                        System.out.printf(" \\");
+                        break;
+
+                    case 10: 
+                        System.out.printf(" ^");
+                        break;
+
+                    case 11: 
+                        System.out.printf(" v");
+                        break;
+
+                    case 12: 
+                        System.out.printf(" >");
+                        break;
+
+                    case 13: 
+                        System.out.printf(" <");
+                        break;
+
+                    default:
+                        System.out.printf("%2d", this.grid[i][j]);
+                }
+            }
+            System.out.print("\n");
+        }
+    }
+
+    public void resetUniverse() {
+        for (int i = 0; i < this.height; i++) {
+            for (int j = 0; j < this.width; j++) {
+                if (this.grid[i][j] != 10 || this.grid[i][j] != 11 || this.grid[i][j] != 12 || this.grid[i][j] != 13 || this.grid[i][j] != 0 || this.grid[i][j] != -1) {
+                    this.grid[i][j] = 0;
+                }
+            }
+        }
+    }
+
+    public void changeUniverseDim(int width, int height) {
+        int [][] newgrid = new int[width][height];
+
+        for (int i = 1; i < height - 1; i++) {
+            for (int j = 1; j < width - 1; j++) {
+                newgrid[i][j] = 0;
+            }
+        }
+
+        for (int i = 0; j < height; j++) {
+            newgrid[i][0] = -1;
+            newgrid[i][width - 1] = -1;
+        }
+
+        for (int j = 0; j < width; j++) {
+            newgrid[height - 1][j] = -1;
+            newgrid[0][j] = -1;
+        }
+
+        this.grid = newgrid;
+        this.width = width;
+        this.height = height;
+    }
+
     public void addObstacle(int pos_i, int pos_j) {
         if (this.grid[pos_i][pos_j] == 0) {
             this.grid[pos_i][pos_j] = -1;
@@ -208,63 +300,5 @@ public class Universe {
 
     public boolean isSolved() {
         return this.boxes_to_fill == 0;
-    }
-
-    public void print(int pos_i, int pos_j) {
-        int i, j;
-        for (i = 0; i < this.height; i++) {
-            for (j = 0; j < this.width; j++) {
-                System.out.print("\033[" + (i + pos_i) + ";" + (j*2 + pos_j) + "H");
-                switch (this.grid[i][j]) {
-                    case -1: 
-                        System.out.printf(" X");
-                        break;
-
-                    case 0: 
-                        System.out.printf("  ");
-                        break;
-
-                    case 1: 
-                        System.out.printf(" |");
-                        break;
-
-                    case 2: 
-                        System.out.printf(" -");
-                        break;
-
-                    case 3:
-                        System.out.printf(" +");
-                        break;
-
-                    case 4: 
-                        System.out.printf(" /");
-                        break;
-
-                    case 5: 
-                        System.out.printf(" \\");
-                        break;
-
-                    case 10: 
-                        System.out.printf(" ^");
-                        break;
-
-                    case 11: 
-                        System.out.printf(" v");
-                        break;
-
-                    case 12: 
-                        System.out.printf(" >");
-                        break;
-
-                    case 13: 
-                        System.out.printf(" <");
-                        break;
-
-                    default:
-                        System.out.printf("%2d", this.grid[i][j]);
-                }
-            }
-            System.out.print("\n");
-        }
     }
 }
