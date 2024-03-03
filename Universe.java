@@ -3,7 +3,7 @@
 public class Universe {
     // Atributes
 
-    private int[][] grid;
+    public int[][] grid;
     private int width, height;
     private int boxes_to_fill;
 

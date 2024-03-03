@@ -2,6 +2,8 @@
 
 import java.util.Scanner;
 import java.time.Instant;
+import java.io.File;
+import java.io.FileWriter;
 
 public class AppLaser {
     public static void main(String [] args) {
@@ -63,7 +65,9 @@ public class AppLaser {
                 System.out.println("\n1 - Resize universe");
                 System.out.println("2 - Change start position");
                 System.out.println("3 - Add obstacle");
-                System.out.println("4 - Resolve");
+                System.out.println("4 - Save universe");
+                System.out.println("5 - Load universe");
+                System.out.println("6 - Resolve");
                 System.out.println("0 - Exit");
 
                 // prompt the user
@@ -126,6 +130,33 @@ public class AppLaser {
                         break;
 
                     case 4:
+                        System.out.print("\nHow do you want to name your universe : ");
+                        String name = "";
+
+                        while (name.isEmpty()) {
+                            name = scanner.nextLine();
+                        }
+
+                        try {
+                            File file = new File("./saves/" + name + ".txt");
+
+                            file.createNewFile();
+
+                            FileWriter writer = new FileWriter("./saves/" + name + ".txt");
+
+                            for (int i = 0; i < universe_height + 2; i++) {
+                                for (int j = 0; j < universe_width + 2; j++) {
+                                    writer.write(universe.grid[i][j]);
+                                }
+                                writer.write("\n");
+                            }
+                            writer.close();
+                        }
+                        catch (Exception e) {}
+
+                        break;
+
+                    case 6:
                         boolean display_progress = false, display_regress = false;
 
                         System.out.println("\n1 - display progress and regress");
