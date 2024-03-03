@@ -33,26 +33,12 @@ public class AppLaser {
         else if (start_dir == 13) firstState_j = start_j - 1;
 
         if (cli == true) {
-            System.out.print("\033[H\033[2J");
-            System.out.flush();
-
-            Scanner scanner = new Scanner(System.in);
-
-            /*System.out.print("Enter the width of the universe : ");
-            universe_width = scanner.nextInt();
-            System.out.print("Enter the length of the universe : ");
-            universe_height = scanner.nextInt();
-            System.out.print("Enter the position of the start point in the first axis : ");
-            start_i = scanner.nextInt();
-            System.out.print("Enter the position of the start point in the seccond axis : ");
-            start_j = scanner.nextInt();
-            System.out.print("Enter the direction of the start point : ");
-            start_dir = scanner.nextInt();*/
-
 
             Stack <Situation> stack = new Stack <Situation>(); 
             Universe universe = new Universe(universe_width + 2, universe_height + 2, start_i + 1, start_j + 1, start_dir);
             Situation currentState = new Situation(firstState_i + 1, firstState_j + 1, start_dir, 0);
+
+            Scanner scanner = new Scanner(System.in);
 
             int choice;
 
@@ -61,6 +47,7 @@ public class AppLaser {
 
                 System.out.print("\033[H\033[2J");
                 System.out.flush();
+                System.out.print("\033[?25h");
 
                 // print the universe
 
@@ -72,6 +59,7 @@ public class AppLaser {
                 System.out.println("2 - Change start position");
                 System.out.println("3 - Add obstacle");
                 System.out.println("4 - Resolve");
+                System.out.println("0 - Exit");
 
                 // prompt the user
 
@@ -82,15 +70,34 @@ public class AppLaser {
 
                     case 1:
                         System.out.print("Enter the width of the universe : ");
-                        int width = scanner.nextInt();
+                        universe_width = scanner.nextInt();
                         System.out.print("Enter the length of the universe : ");
-                        int height = scanner.nextInt();
+                        universe_height = scanner.nextInt();
 
-                        universe.changeUniverseDim(width, height);
+                        universe.changeUniverseDim(universe_width + 2, universe_height + 2);
 
                         break;
 
                     case 2:
+                        System.out.print("Enter the position of the start point in the first axis : ");
+                        start_i = scanner.nextInt() + 1;
+                        System.out.print("Enter the position of the start point in the seccond axis : ");
+                        start_j = scanner.nextInt() + 1;
+                        System.out.print("Enter the direction of the start point : ");
+                        start_dir = scanner.nextInt();
+
+                        firstState_i = start_i;
+                        firstState_j = start_j;
+
+                        if      (start_dir == 10) firstState_i = start_i - 1;
+                        else if (start_dir == 11) firstState_i = start_i + 1;
+                        else if (start_dir == 12) firstState_j = start_j + 1;
+                        else if (start_dir == 13) firstState_j = start_j - 1;
+
+                        currentState = new Situation(firstState_i + 1, firstState_j + 1, start_dir, 0);
+
+                        universe.changeUniverseStart(start_i, start_j, start_dir);
+
                         break;
 
                     case 3:
@@ -110,70 +117,79 @@ public class AppLaser {
                                 universe.addObstacle(i, j);
                             }
                         }
+
+                        break;
+
+                    case 4:
+                        boolean display_progress = false, display_regress = false;
+
+                        System.out.println("\n1 - display progress and regress");
+                        System.out.println("2 - display progress");
+                        System.out.println("3 - display regress");
+                        System.out.println("4 - display nothing");
+                        System.out.print("\nChoice : ");
+                        choice = scanner.nextInt();
+
+                        switch (choice) {
+                            case 1:
+                                display_progress = true;
+                                display_regress = true;
+                                break;
+
+                            case 2:
+                                display_progress = true;
+                                break;
+
+                            case 3:
+                                display_regress = true;
+                                break;
+
+                            case 4:
+                                break;
+
+                            default:
+                                break;
+                        }
+
+                        System.out.print("\033[?25l");
+                        System.out.print("\033[H\033[2J");
+                        System.out.flush();
+
+                        universe.resetUniverse();
+
+                        universe.print(2, 4);
+
+                        while (!universe.isSolved()) {
+                            if (universe.canEvolve(currentState)) {
+                                stack.push(currentState.copy(universe.possibleChoices(currentState)));
+                                currentState = universe.evolve(currentState);
+
+                                if (display_progress == true) universe.print(universe_height + 6, 4);
+                            }
+                            else if (stack.size() > 0) {
+                                currentState = stack.pop();
+                                universe.reset(currentState);
+
+                                if (display_regress == true) universe.print(universe_height + 6, 4);
+                            } else {
+                                break;
+                            }
+                        }
+
+                        System.out.println("\n\n");
+                        universe.print(universe_height + 6, 4);
+
+                        System.out.print("\033[?25h");
+                        System.out.print("\nEnter anything to continue....");
+                        scanner.nextInt();
+
+                        break;
+
+                    default:
                         break;
 
                 }
-
-                if (choice == 1) {
-                }
-            } while (choice != 2);
-
-            boolean display_progress = false, display_regress = false;
-
-            System.out.println("1 - display progress and regress");
-            System.out.println("2 - display progress");
-            System.out.println("3 - display regress");
-            System.out.println("4 - display nothing");
-            System.out.print("\nChoice : ");
-            choice = scanner.nextInt();
-
-            switch (choice) {
-                case 1:
-                    display_progress = true;
-                    display_regress = true;
-                    break;
-
-                case 2:
-                    display_progress = true;
-                    break;
-
-                case 3:
-                    display_regress = true;
-                    break;
-
-                case 4:
-                    break;
-
-                default:
-                    break;
-            }
-
-            System.out.print("\033[?25l");
-            System.out.print("\033[H\033[2J");
-            System.out.flush();
-
-            universe.print(2, 4);
-
-            while (!universe.isSolved()) {
-                if (universe.canEvolve(currentState)) {
-                    stack.push(currentState.copy(universe.possibleChoices(currentState)));
-                    currentState = universe.evolve(currentState);
-
-                    if (display_progress == true) universe.print(universe_height + 6, 4);
-                }
-                else if (stack.size() > 0) {
-                    currentState = stack.pop();
-                    universe.reset(currentState);
-
-                    if (display_regress == true) universe.print(universe_height + 6, 4);
-                } else {
-                    break;
-                }
-            }
-
-            System.out.println("\n\n");
-            universe.print(universe_height + 6, 4);
-            System.out.print("\033[?25h");
+            } while (choice != 0);
         }
         else {
             // definitions of the starting position and the universe dimensions

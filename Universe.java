@@ -96,9 +96,9 @@ public class Universe {
     }
 
     public void resetUniverse() {
-        for (int i = 0; i < this.height; i++) {
-            for (int j = 0; j < this.width; j++) {
-                if (this.grid[i][j] != 10 || this.grid[i][j] != 11 || this.grid[i][j] != 12 || this.grid[i][j] != 13 || this.grid[i][j] != 0 || this.grid[i][j] != -1) {
+        for (int i = 1; i < this.height - 1; i++) {
+            for (int j = 1; j < this.width - 1; j++) {
+                if (this.grid[i][j] != 10 && this.grid[i][j] != 11 && this.grid[i][j] != 12 && this.grid[i][j] != 13 && this.grid[i][j] != 0 && this.grid[i][j] != -1) {
                     this.grid[i][j] = 0;
                 }
             }
@@ -114,7 +114,13 @@ public class Universe {
             }
         }
 
-        for (int i = 0; j < height; j++) {
+        for (int i = 1; i < height - 1 && i < this.height - 1; i++) {
+            for (int j = 1; j < width - 1 && j < this.width - 1; j++) {
+                newgrid[i][j] = this.grid[i][j];
+            }
+        }
+
+        for (int i = 0; i < height; i++) {
             newgrid[i][0] = -1;
             newgrid[i][width - 1] = -1;
         }
@@ -127,6 +133,18 @@ public class Universe {
         this.grid = newgrid;
         this.width = width;
         this.height = height;
+    }
+
+    public void changeUniverseStart(int pos_i, int pos_j, int dir) {
+        for (int i = 0; i < this.height; i++) {
+            for (int j = 0; j < this.width; j++) {
+                if (this.grid[i][j] == 10 || this.grid[i][j] == 11 || this.grid[i][j] == 12|| this.grid[i][j] == 13) {
+                    this.grid[i][j] = 0;
+                }
+            }
+        }
+
+        this.grid[pos_i][pos_j] = dir;
     }
 
     public void addObstacle(int pos_i, int pos_j) {
