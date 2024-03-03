@@ -192,60 +192,7 @@ public class AppLaser {
             } while (choice != 0);
         }
         else {
-            // definitions of the starting position and the universe dimensions
-
-            start_i           = 3;
-            start_j           = 1;
-            start_dir         = 11;
-            universe_width    = 10;
-            universe_height   = 10;
-            firstState_i      = start_i;
-            firstState_j      = start_j;
-
-            if      (start_dir == 10) firstState_i = start_i - 1;
-            else if (start_dir == 11) firstState_i = start_i + 1;
-            else if (start_dir == 12) firstState_j = start_j + 1;
-            else if (start_dir == 13) firstState_j = start_j - 1;
-
-            // creation of the stack, the universe and the first state
-
-            Stack <Situation> stack = new Stack <Situation>(); 
-            Universe universe = new Universe(universe_width + 2, universe_height + 2, start_i, start_j, start_dir);
-            Situation currentState = new Situation(firstState_i, firstState_j, start_dir, 0);
-
-            // obstacles creation
-
-            universe.addObstacle(2, 3);
-            universe.addObstacle(3, 3);
-            universe.addObstacle(2, 4);
-            universe.addObstacle(3, 4);
-
-            System.out.print("\033[?25l");
-            System.out.print("\033[H\033[2J");
-            System.out.flush();
-
-            universe.print(2, 4);
-
-            while (!universe.isSolved()) {
-                if (universe.canEvolve(currentState)) {
-                    stack.push(currentState.copy(universe.possibleChoices(currentState)));
-                    currentState = universe.evolve(currentState);
-                }
-                else if (stack.size() > 0) {
-                    currentState = stack.pop();
-                    universe.reset(currentState);
-
-                    universe.print(universe_height + 6, 4);
-                } else {
-                    break;
-                }
-                //universe.print(universe_height + 6, 4);
-            }
-
-            System.out.println("\n\n");
-            universe.print(universe_height + 6, 4);
-            System.out.print("\033[?25h");
-        }
-        
+            System.out.println("there is no GUI yet.");
+        } 
     }
 }
