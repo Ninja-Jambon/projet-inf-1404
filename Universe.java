@@ -1,9 +1,12 @@
 // Antoine CRETUAL, Lukian LEIZOUR, 14/02/2024
 
+import java.io.File;
+import java.io.FileWriter;
+
 public class Universe {
     // Atributes
 
-    public int[][] grid;
+    private int[][] grid;
     private int width, height;
     private int boxes_to_fill;
 
@@ -103,6 +106,18 @@ public class Universe {
                 }
             }
         }
+    }
+
+    public void resetUniverseObstacles() {
+        for (int i = 1; i < this.height - 1; i++) {
+            for (int j = 1; j < this.width - 1; j++) {
+                if (this.grid[i][j] != 10 && this.grid[i][j] != 11 && this.grid[i][j] != 12 && this.grid[i][j] != 13 && this.grid[i][j] != 0) {
+                    this.grid[i][j] = 0;
+                }
+            }
+        }
+
+        this.boxes_to_fill = ((this.height - 2) * (this.width - 2)) - 1;
     }
 
     public void changeUniverseDim(int width, int height) {
@@ -328,5 +343,31 @@ public class Universe {
 
     public boolean isSolved() {
         return this.boxes_to_fill == 0;
+    }
+
+    public void save(String fileName) {
+        try {
+            File file = new File("./saves/" + fileName + ".txt");
+
+            file.createNewFile();
+
+            FileWriter writer = new FileWriter("./saves/" + fileName + ".txt");
+            writer.write(this.height + "\n" + this.width + "\n");
+
+            for (int i = 1; i < this.height - 1; i++) {
+                for (int j = 1; j < this.width - 1; j++) {
+                    if (this.grid[i][j] == 10 || this.grid[i][j] == 11 || this.grid[i][j] == 12 || this.grid[i][j] == 13) writer.write(this.grid[i][j] + "\n" + i + "\n" + j + "\n");
+                }
+            }
+
+            for (int i = 1; i < this.height - 1; i++) {
+                for (int j = 1; j < this.width - 1; j++) {
+                    if (this.grid[i][j] == -1) writer.write(i + "\n" + j + "\n");
+                }
+            }
+
+            writer.close();
+        }
+        catch (Exception e) {}
     }
 }

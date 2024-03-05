@@ -2,8 +2,12 @@
 
 import java.util.Scanner;
 import java.time.Instant;
+import java.io.FileReader;
+import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileWriter;
+import java.util.Set;
+import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 public class AppLaser {
     public static void main(String [] args) {
@@ -65,9 +69,11 @@ public class AppLaser {
                 System.out.println("\n1 - Resize universe");
                 System.out.println("2 - Change start position");
                 System.out.println("3 - Add obstacle");
-                System.out.println("4 - Save universe");
-                System.out.println("5 - Load universe");
-                System.out.println("6 - Resolve");
+                System.out.println("4 - Reset universe");
+                System.out.println("5 - Reset obstacles");
+                System.out.println("6 - Save universe");
+                System.out.println("7 - Load universe");
+                System.out.println("8 - Resolve");
                 System.out.println("0 - Exit");
 
                 // prompt the user
@@ -130,6 +136,17 @@ public class AppLaser {
                         break;
 
                     case 4:
+                        universe.resetUniverse();
+
+                        break;
+
+                    case 5:
+                        universe.resetUniverseObstacles();
+
+                        break;
+
+
+                    case 6:
                         System.out.print("\nHow do you want to name your universe : ");
                         String name = "";
 
@@ -137,26 +154,68 @@ public class AppLaser {
                             name = scanner.nextLine();
                         }
 
+                        universe.save(name);
+
+                        break;
+
+                    case 7:
+
+                        Set<String> files = Stream.of(new File("./saves").listFiles()).filter(file -> !file.isDirectory()).map(File::getName).collect(Collectors.toSet());
+
+                        System.out.println("\nAvailable files : \n");
+
+                        for (String element : files) {
+                            System.out.println(element.replace(".txt", ""));
+                        }
+
+                        System.out.print("\nWhat universe do you want load ? : ");
+                        String name2 = "";
+
+                        while (name2.isEmpty()) {
+                            name2 = scanner.nextLine();
+                        }
+
                         try {
-                            File file = new File("./saves/" + name + ".txt");
+                            BufferedReader reader = new BufferedReader(new FileReader("./saves/" + name2 + ".txt"));
+                            universe_height = Integer.valueOf(reader.readLine());
+                            universe_width = Integer.valueOf(reader.readLine());
+                            start_dir = Integer.valueOf(reader.readLine());
+                            start_i = Integer.valueOf(reader.readLine());
+                            start_j = Integer.valueOf(reader.readLine());
 
-                            file.createNewFile();
 
-                            FileWriter writer = new FileWriter("./saves/" + name + ".txt");
+                            universe.changeUniverseDim(universe_width, universe_height);
 
-                            for (int i = 0; i < universe_height + 2; i++) {
-                                for (int j = 0; j < universe_width + 2; j++) {
-                                    writer.write(universe.grid[i][j]);
+                            firstState_i = start_i;
+                            firstState_j = start_j;
+
+                            if      (start_dir == 10) firstState_i = start_i - 1;
+                            else if (start_dir == 11) firstState_i = start_i + 1;
+                            else if (start_dir == 12) firstState_j = start_j + 1;
+                            else if (start_dir == 13) firstState_j = start_j - 1;
+
+                            currentState = new Situation(firstState_i, firstState_j, start_dir, 0);
+
+                            universe.changeUniverseStart(start_i, start_j, start_dir);
+
+                            while (true) {
+                                try {
+                                    int pos1 = Integer.valueOf(reader.readLine());
+                                    int pos2 = Integer.valueOf(reader.readLine());
+
+                                    universe.addObstacle(pos1, pos2);
+                                } 
+                                catch (Exception e) {
+                                    break;
                                 }
-                                writer.write("\n");
                             }
-                            writer.close();
                         }
                         catch (Exception e) {}
 
                         break;
 
-                    case 6:
+
+                    case 8:
                         boolean display_progress = false, display_regress = false;
 
                         System.out.println("\n1 - display progress and regress");
