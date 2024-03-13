@@ -9,6 +9,9 @@ public class Universe {
     private int[][] grid;
     private int width, height;
     private int boxes_to_fill;
+    private int filled_boxes;
+    private int nb_mirors;
+    private String name;
 
     // Constructors
 
@@ -17,6 +20,8 @@ public class Universe {
         this.height = height;
         this.width = width;
         this.boxes_to_fill = (width - 2) * (height - 2) - 1;
+        this.filled_boxes = 0;
+        this.nb_mirors = 0;
 
         int i, j;
         for (i = 1; i < this.height - 1; i++) {
@@ -98,6 +103,17 @@ public class Universe {
         }
     }
 
+    public void recalculateBoxesToFill() {
+        this.boxes_to_fill = 0;
+        for (int i = 1; i < this.height - 1; i++) {
+            for (int j = 1; j < this.width - 1; j++) {
+                if ((this.grid[i - 1][j] == 0 || this.grid[i + 1][j] == 0 || this.grid[i][j - 1] == 0 || this.grid[i][j + 1] == 0) && this.grid[i][j] == 0) {
+                    this.boxes_to_fill ++;
+                }
+            }
+        }
+    }
+
     public void resetUniverse() {
         for (int i = 1; i < this.height - 1; i++) {
             for (int j = 1; j < this.width - 1; j++) {
@@ -106,6 +122,8 @@ public class Universe {
                 }
             }
         }
+
+        this.recalculateBoxesToFill();
     }
 
     public void resetUniverseObstacles() {
@@ -149,7 +167,7 @@ public class Universe {
         this.width = width;
         this.height = height;
 
-        this.boxes_to_fill = 0;
+        /*this.boxes_to_fill = 0;
 
         for (int i = 1; i < height - 1; i++) {
             for (int j = 1; j < width - 1; j++) {
@@ -157,7 +175,9 @@ public class Universe {
                     this.boxes_to_fill ++;
                 }
             }
-        }
+        }*/
+
+        this.recalculateBoxesToFill();
     }
 
     public void changeUniverseStart(int pos_i, int pos_j, int dir) {
@@ -175,7 +195,8 @@ public class Universe {
     public void addObstacle(int pos_i, int pos_j) {
         if (this.grid[pos_i][pos_j] == 0) {
             this.grid[pos_i][pos_j] = -1;
-            this.boxes_to_fill--;
+            //this.boxes_to_fill--;
+            this.recalculateBoxesToFill();
         }
         else {}
     }
@@ -284,21 +305,30 @@ public class Universe {
         if (c == 1 && (d == 10 || d == 11)) {
             if (this.grid[i][j] == 0) {
                 this.grid[i][j] = 1;
+                this.filled_boxes ++;
             } else {
                 this.grid[i][j] = 3;
-                this.boxes_to_fill++;
+                //this.boxes_to_fill++;
             }
         }
         if (c == 1 && (d == 12 || d == 13)) {
             if (this.grid[i][j] == 0) {
                 this.grid[i][j] = 2;
+                this.filled_boxes ++;
             } else {
                 this.grid[i][j] = 3;
-                this.boxes_to_fill++;
+                //this.boxes_to_fill++;
             }
         }
-        if ((c == 3 && d == 10) || (c == 3 && d == 11) || (c == 2 && d == 12) || (c == 2 && d == 13)) this.grid[i][j] = 4;
-        if ((c == 2 && d == 10) || (c == 2 && d == 11) || (c == 3 && d == 12) || (c == 3 && d == 13)) this.grid[i][j] = 5;
+        if ((c == 3 && d == 10) || (c == 3 && d == 11) || (c == 2 && d == 12) || (c == 2 && d == 13)) {
+            this.grid[i][j] = 4;
+            this.filled_boxes ++;
+            this.nb_mirors ++;
+        }
+        if ((c == 2 && d == 10) || (c == 2 && d == 11) || (c == 3 && d == 12) || (c == 3 && d == 13)) {
+            this.grid[i][j] = 5;
+            this.filled_boxes ++;
+        }
 
         // changing the position of the situation
 
@@ -369,5 +399,13 @@ public class Universe {
             writer.close();
         }
         catch (Exception e) {}
+    }
+
+    public int getFilledBoxes() {
+        return this.filled_boxes;
+    }
+
+    public int getNbMirrors() {
+        return this.nb_mirors;
     }
 }

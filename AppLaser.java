@@ -256,12 +256,20 @@ public class AppLaser {
 
                         int start_time = (int) Instant.now().getEpochSecond();
 
-                        while (!universe.isSolved()) {
+                        Stack bestStack = stack.copy();
+                        int best_filled_boxes = 0;
+                        int best_nb_mirrors = 0;
+
+                        do { //!universe.isSolved()
                             if (universe.canEvolve(currentState)) {
                                 stack.push(currentState.copy(universe.possibleChoices(currentState)));
                                 currentState = universe.evolve(currentState);
 
                                 if (display_progress == true) universe.print(universe_height + 6, 4);
+
+                                if (universe.getFilledBoxes() > best_filled_boxes && universe.getNbMirrors() < best_nb_mirrors) {
+                                    bestStack = stack.copy();
+                                }
                             }
                             else if (stack.size() > 0) {
                                 currentState = stack.pop();
@@ -278,7 +286,7 @@ public class AppLaser {
                             if ((int) Instant.now().getEpochSecond() - start_time > 2 * 60 && optimize_duration == true) {
                                 display_regress = false;
                             }
-                        }
+                        } while (stack.size() != 0);
 
                         System.out.println("\n\n");
 

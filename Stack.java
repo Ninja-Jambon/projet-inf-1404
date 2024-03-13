@@ -13,6 +13,10 @@ public class Stack <T> {
 		array = new Vector<T>();
 	}
 
+	public Stack(Vector<T> array) {
+		array = array;
+	}
+
 	// Methods
 
 	public void push(T x) {
@@ -27,5 +31,9 @@ public class Stack <T> {
 
 	public int size() {
 		return this.array.size();
+	}
+
+	public Stack copy() {
+		return new Stack(new Vector<T>(this.array));
 	}
 }
