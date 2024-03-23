@@ -273,6 +273,7 @@ public class AppLaser {
 									best_nb_mirrors = universe.getNbMirrors();
 					
 									Universe.print(bestGrid, universe_width + 2, universe_height + 2, 2, 2 * universe_width + 10);
+									System.out.println("Miroirs: " + best_nb_mirrors + " Cases: " + best_filled_boxes);
 								}
 							}
 							else if (stack.size() > 0) {

@@ -122,7 +122,7 @@ public class Universe {
 	}
 
 	public void changeUniverseDim(int width, int height) {
-		int [][] newgrid = new int[width][height];
+		int [][] newgrid = new int[height][width];
 
 		for (int i = 1; i < height - 1; i++) {
 			for (int j = 1; j < width - 1; j++) {
