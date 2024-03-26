@@ -9,6 +9,9 @@ import java.util.Set;
 import java.util.stream.Stream;
 import java.util.stream.Collectors;
 
+import userInterface.UserInterface;
+import universe.*;
+
 public class AppLaser {
 	public static void main(String [] args) {
 
@@ -312,7 +315,8 @@ public class AppLaser {
 			} while (choice != 0);
 		}
 		else {
-			System.out.println("there is no GUI yet.");
+			UserInterface userInterface= new UserInterface();
+			userInterface.start();
 		} 
 	}
 }

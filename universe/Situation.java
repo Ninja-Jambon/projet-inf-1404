@@ -1,5 +1,7 @@
 // Antoine CRETUAL, Lukian LEIZOUR, 21/02/2024
 
+package universe;
+
 public class Situation {
 	// Atributes 
 

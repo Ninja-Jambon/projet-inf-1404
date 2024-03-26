@@ -5,3 +5,7 @@ build:
 run:
 	javac --source 1.8 --target 1.8 AppLaser.java
 	java AppLaser -cli --optimize-duration
+
+run_gui:
+	javac --source 1.8 --target 1.8 AppLaser.java
+	java AppLaser

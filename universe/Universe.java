@@ -1,5 +1,7 @@
 // Antoine CRETUAL, Lukian LEIZOUR, 14/02/2024
 
+package universe;
+
 import java.io.File;
 import java.io.FileWriter;
 
