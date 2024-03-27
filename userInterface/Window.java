@@ -88,7 +88,6 @@ public class Window extends JFrame {
 		menuBar.add(aideMenu);
 		menuBar.add(toolsMenu);
 		
-		
 		regles.addActionListener(e -> {
 			JOptionPane.showMessageDialog(this, "Définissez la taille du plateau ainsi que l'orientation du laser, enfin ajoutez des obstacles et laissez le programme trouver le bon chemin !");
 		});
@@ -97,8 +96,19 @@ public class Window extends JFrame {
 			int width = Integer.valueOf(JOptionPane.showInputDialog("Choose the width"));
 			int height = Integer.valueOf(JOptionPane.showInputDialog("Choose the height"));
 
-			this.grid.changeDim(width, height);
-			this.grid.repaint();
+			this.panel.remove(this.grid);
+			this.grid = new Grid(width, height);
+			this.panel.add(this.grid);
+			super.pack();
+			super.repaint();
+		});
+
+		radioWall.addActionListener(e -> {
+			this.grid.setSelected(1);
+		});
+
+		radioStart.addActionListener(e -> {
+			this.grid.setSelected(0);
 		});
 		
 		this.grid = new Grid(this.universe.getHeight() - 2, this.universe.getWidth() - 2); 
