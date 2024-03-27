@@ -172,6 +172,13 @@ public class Universe {
 		else {}
 	}
 
+	public void removeObstacle(int pos_i, int pos_j) {
+		if (this.grid[pos_i][pos_j] == -1) {
+			this.grid[pos_i][pos_j] = 0;
+		}
+		else {}
+	}
+
 	public int possibleChoices(Situation s) {
 		int i = s.pos_i;
 		int j = s.pos_j;

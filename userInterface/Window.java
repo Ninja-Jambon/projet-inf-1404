@@ -18,7 +18,7 @@ import javax.imageio.ImageIO;
 
 import java.net.URL;
 
-import universe.*;
+import universe.Universe;
 
 public class Window extends JFrame {
 
@@ -96,8 +96,9 @@ public class Window extends JFrame {
 			int width = Integer.valueOf(JOptionPane.showInputDialog("Choose the width"));
 			int height = Integer.valueOf(JOptionPane.showInputDialog("Choose the height"));
 
+			this.universe.changeUniverseDim(width + 2, height + 2);
 			this.panel.remove(this.grid);
-			this.grid = new Grid(width, height);
+			this.grid = new Grid(width, height, this.universe);
 			this.panel.add(this.grid);
 			super.pack();
 			super.repaint();
@@ -111,7 +112,7 @@ public class Window extends JFrame {
 			this.grid.setSelected(0);
 		});
 		
-		this.grid = new Grid(this.universe.getHeight() - 2, this.universe.getWidth() - 2); 
+		this.grid = new Grid(this.universe.getHeight() - 2, this.universe.getWidth() - 2, this.universe); 
 		this.panel.add(grid, BorderLayout.CENTER);
 
 		super.setJMenuBar(menuBar);
