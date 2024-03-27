@@ -381,4 +381,12 @@ public class Universe {
 	public int[][] copyGrid() {
 		return this.grid.clone();
 	}
+
+	public int getWidth() {
+		return this.width;
+	}
+
+	public int getHeight() {
+		return this.height;
+	}
 }
