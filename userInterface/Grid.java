@@ -250,7 +250,6 @@ public class Grid extends JPanel {
 							this.bestGrid = universe.copyGrid();
 							best_filled_boxes = universe.getFilledBoxes();
 							best_nb_mirrors = universe.getNbMirrors();
-							//printUniverseGrid(this.bestGrid);
 						}
 					}
 					else if (stack.size() > 0) {
@@ -262,7 +261,6 @@ public class Grid extends JPanel {
 					if (Instant.now().toEpochMilli() - lastRefresh > refreshRate) {
 						lastRefresh = Instant.now().toEpochMilli();
 						printUniverseGrid(this.bestGrid);
-
 					}
 				} while (stack.size() != 0 && solving == true);
 
