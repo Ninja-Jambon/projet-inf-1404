@@ -48,11 +48,10 @@ public class AppLaser {
 		else if (start_dir == 12) firstState_j = start_j + 1;
 		else if (start_dir == 13) firstState_j = start_j - 1;
 
-		Stack <Situation> stack = new Stack <Situation>(); 
-		Universe universe = new Universe(universe_width + 2, universe_height + 2, start_i + 1, start_j + 1, start_dir);
-		Situation currentState = new Situation(firstState_i + 1, firstState_j + 1, start_dir, 0);
-
 		if (cli == true) {
+			Stack <Situation> stack = new Stack <Situation>(); 
+			Universe universe = new Universe(universe_width + 2, universe_height + 2, start_i + 1, start_j + 1, start_dir);
+			Situation currentState = new Situation(firstState_i + 1, firstState_j + 1, start_dir, 0);
 			Scanner scanner = new Scanner(System.in);
 
 			int choice;
@@ -316,6 +315,7 @@ public class AppLaser {
 			} while (choice != 0);
 		}
 		else {
+			Universe universe = new Universe(universe_width + 2, universe_height + 2, start_i + 1, start_j + 1, start_dir);
 			UserInterface userInterface = new UserInterface(universe);
 			userInterface.start();
 		} 

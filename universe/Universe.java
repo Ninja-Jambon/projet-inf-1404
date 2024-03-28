@@ -10,6 +10,7 @@ public class Universe {
 
 	private int[][] grid;
 	private int width, height;
+	private int start_i, start_j;
 	private int filled_boxes;
 	private int nb_mirors;
 	private String name;
@@ -20,6 +21,8 @@ public class Universe {
 		this.grid = new int[height][width];
 		this.height = height;
 		this.width = width;
+		this.start_i = i_start;
+		this.start_j = j_start;
 		this.filled_boxes = 0;
 		this.nb_mirors = 0;
 
@@ -154,15 +157,11 @@ public class Universe {
 	}
 
 	public void changeUniverseStart(int pos_i, int pos_j, int dir) {
-		for (int i = 0; i < this.height; i++) {
-			for (int j = 0; j < this.width; j++) {
-				if (this.grid[i][j] == 10 || this.grid[i][j] == 11 || this.grid[i][j] == 12|| this.grid[i][j] == 13) {
-					this.grid[i][j] = 0;
-				}
-			}
-		}
-
+		this.grid[this.start_i][start_j] = 0;
 		this.grid[pos_i][pos_j] = dir;
+
+		this.start_i = pos_i;
+		this.start_j = pos_j;
 	}
 
 	public void addObstacle(int pos_i, int pos_j) {
@@ -395,5 +394,12 @@ public class Universe {
 
 	public int getHeight() {
 		return this.height;
+	}
+
+	public int[] getStartCoords() {
+		int [] tab = new int[2];
+		tab[0] = this.start_i;
+		tab[1] = this.start_j;
+		return tab;
 	}
 }

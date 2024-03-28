@@ -67,8 +67,9 @@ public class Window extends JFrame {
 		buttonGroup.add(radioWall);
 		buttonGroup.add(radioStart);
 
-		JMenuItem changeSize = new JMenuItem("Change Size"); 
-		JMenuItem solve = new JMenuItem("Solve"); 
+		JMenuItem changeSize = new JMenuItem("Change Size");
+		JMenuItem solve = new JMenuItem("Solve");
+		JMenuItem reset = new JMenuItem("Reset");
 		
 		fichierMenu.add(nouveauItem);
 		fichierMenu.add(ouvrirItem);
@@ -83,6 +84,8 @@ public class Window extends JFrame {
 		toolsMenu.add(changeSize);
 		toolsMenu.addSeparator();
 		toolsMenu.add(solve);
+		toolsMenu.addSeparator();
+		toolsMenu.add(reset);
 
 		menuBar.add(fichierMenu);
 		menuBar.add(aideMenu);
@@ -105,11 +108,20 @@ public class Window extends JFrame {
 		});
 
 		radioWall.addActionListener(e -> {
-			this.grid.setSelected(1);
+			this.grid.setSelected(0);
 		});
 
 		radioStart.addActionListener(e -> {
-			this.grid.setSelected(0);
+			this.grid.setSelected(1);
+		});
+
+		solve.addActionListener(e -> {
+			this.grid.solve();
+		});
+
+
+		reset.addActionListener(e -> {
+			this.grid.reset();
 		});
 		
 		this.grid = new Grid(this.universe.getHeight() - 2, this.universe.getWidth() - 2, this.universe); 
