@@ -26,6 +26,8 @@ import universe.Universe;
 import universe.Stack;
 import universe.Situation;
 
+import java.time.Instant;
+
 public class Grid extends JPanel {
 	private int width;
 	private int height;
@@ -33,8 +35,10 @@ public class Grid extends JPanel {
 	private int selected;
 	private Universe universe;
 	private int button_width, button_height;
+	private int refreshRate;
+	private boolean solving;
 
-	public Grid(int width, int height, Universe universe) {
+	public Grid(int width, int height, Universe universe, int refreshRate) {
 		super(new GridLayout(height, width));
 		this.width = width;
 		this.height = height;
@@ -42,6 +46,8 @@ public class Grid extends JPanel {
 		this.universe = universe;
 		this.button_width = 600 / this.height;
 		this.button_height = button_width;
+		this.refreshRate = refreshRate;
+		this.solving = false;
 
 		this.mat = new JButton[height][width];
 
@@ -55,6 +61,10 @@ public class Grid extends JPanel {
 				final int coord_j = j;
 
 				this.mat[i][j].addActionListener(e -> {
+					if (solving) {
+						return;
+					}
+
 					switch (this.universe.getGrid()[coord_i + 1][coord_j + 1]) {
 						case 0:
 							if (this.selected == 1) {
@@ -93,101 +103,113 @@ public class Grid extends JPanel {
 							break;
 					}
 
-					this.printUniverse();
+					this.printUniverseGrid(this.universe.getGrid());
 				});
 
 				super.add(this.mat[i][j]);
 			}
 		}
 
-		this.printUniverse();
+		this.printUniverseGrid(this.universe.getGrid());
 	}
 
 	public void setSelected(int selected) {
 		this.selected = selected;
 	}
 
-	public void setButtonsEnabled(boolean enabled) {
-		for (int i = 0; i < this.height; i++) {
-			for (int j = 0; j < this.width; j ++) {
-				this.mat[i][j].setEnabled(enabled);
-			}
-		}
+	public void setRefreshRate(int refreshRate) {
+		this.refreshRate = refreshRate;
 	}
 
-	public void printUniverse() {
+	public void setSolving(boolean solving) {
+		this.solving = solving;
+	}
+
+	public void printUniverseGrid(int [][] universeGrid) {
 		for (int i = 0; i < this.height; i++) {
 			for (int j = 0; j < this.width; j ++) {
 				Image photo;
-				switch (this.universe.getGrid()[i + 1][j + 1]) {
+				switch (universeGrid[i + 1][j + 1]) {
 					case -1:
-						photo = new ImageIcon(this.getClass().getResource("../images/wall.png")).getImage().getScaledInstance(this.button_width, this.button_height, Image.SCALE_SMOOTH);
-						this.mat[i][j].setIcon(new ImageIcon(photo));
+						this.changeButtonState(i, j, "../images/wall.png");
 						break;
 					case 0:
-						this.mat[i][j].setBackground(Color.WHITE);
-						this.mat[i][j].setIcon(null);
+						this.changeButtonState(i, j, null);
 						break;
 					case 1: 
-						photo = new ImageIcon(this.getClass().getResource("../images/verticalLaser.png")).getImage().getScaledInstance(this.button_width, this.button_height, Image.SCALE_SMOOTH);
-						this.mat[i][j].setIcon(new ImageIcon(photo));
+						this.changeButtonState(i, j, "../images/verticalLaser.png");
 						break;
 					case 2: 
-						photo = new ImageIcon(this.getClass().getResource("../images/horizontalLaser.png")).getImage().getScaledInstance(this.button_width, this.button_height, Image.SCALE_SMOOTH);
-						this.mat[i][j].setIcon(new ImageIcon(photo));
+						this.changeButtonState(i, j, "../images/horizontalLaser.png");
 						break;
 					case 3:
-						photo = new ImageIcon(this.getClass().getResource("../images/crossLaser.png")).getImage().getScaledInstance(this.button_width, this.button_height, Image.SCALE_SMOOTH);
-						this.mat[i][j].setIcon(new ImageIcon(photo));
+						this.changeButtonState(i, j, "../images/crossLaser.png");
 						break;
 					case 4:
-						photo = new ImageIcon(this.getClass().getResource("../images/miror1.png")).getImage().getScaledInstance(this.button_width, this.button_height, Image.SCALE_SMOOTH);
-						this.mat[i][j].setIcon(new ImageIcon(photo));
+						this.changeButtonState(i, j, "../images/miror1.png");
 						break;
 					case 5: 
-						photo = new ImageIcon(this.getClass().getResource("../images/miror2.png")).getImage().getScaledInstance(this.button_width, this.button_height, Image.SCALE_SMOOTH);
-						this.mat[i][j].setIcon(new ImageIcon(photo));
+						this.changeButtonState(i, j, "../images/miror2.png");
 						break;
 					case 6: 
-						photo = new ImageIcon(this.getClass().getResource("../images/miror3.png")).getImage().getScaledInstance(this.button_width, this.button_height, Image.SCALE_SMOOTH);
-						this.mat[i][j].setIcon(new ImageIcon(photo));
+						this.changeButtonState(i, j, "../images/miror3.png");
 						break;
 					case 7: 
-						photo = new ImageIcon(this.getClass().getResource("../images/miror4.png")).getImage().getScaledInstance(this.button_width, this.button_height, Image.SCALE_SMOOTH);
-						this.mat[i][j].setIcon(new ImageIcon(photo));
+						this.changeButtonState(i, j, "../images/miror4.png");
 						break;
 					case 10:
-						photo = new ImageIcon(this.getClass().getResource("../images/startUp.png")).getImage().getScaledInstance(this.button_width, this.button_height, Image.SCALE_SMOOTH);
-						this.mat[i][j].setIcon(new ImageIcon(photo));
+						this.changeButtonState(i, j, "../images/startUp.png");
 						break;
 					case 11:
-						photo = new ImageIcon(this.getClass().getResource("../images/startBot.png")).getImage().getScaledInstance(this.button_width, this.button_height, Image.SCALE_SMOOTH);
-						this.mat[i][j].setIcon(new ImageIcon(photo));
+						this.changeButtonState(i, j, "../images/startBot.png");
 						break;
 					case 12:
-						photo = new ImageIcon(this.getClass().getResource("../images/startRight.png")).getImage().getScaledInstance(this.button_width, this.button_height, Image.SCALE_SMOOTH);
-						this.mat[i][j].setIcon(new ImageIcon(photo));
+						this.changeButtonState(i, j, "../images/startRight.png");
 						break;
 					case 13:
-						photo = new ImageIcon(this.getClass().getResource("../images/startLeft.png")).getImage().getScaledInstance(this.button_width, this.button_height, Image.SCALE_SMOOTH);
-						this.mat[i][j].setIcon(new ImageIcon(photo));
+						this.changeButtonState(i, j, "../images/startLeft.png");
 						break;
 				}
 			}
 		}
 	}
 
+	public void changeButtonState(int coord_i, int coord_j, String url) {
+		if (url == null) {
+			Thread t = new Thread(new Runnable() {
+			    @Override
+			    public void run() {
+					mat[coord_i][coord_j].setBackground(Color.WHITE);
+					mat[coord_i][coord_j].setIcon(null);
+				}
+			});
+
+			t.start();
+		} else {
+			Thread t = new Thread(new Runnable() {
+			    @Override
+			    public void run() {
+					Image image = new ImageIcon(getClass().getResource(url)).getImage().getScaledInstance(button_width, button_height, Image.SCALE_SMOOTH);
+					mat[coord_i][coord_j].setIcon(new ImageIcon(image));
+				}
+			});
+
+			t.start();
+		}
+	}
+
 	public void reset() {
 		this.universe.resetUniverse();
-		this.printUniverse();
+		this.printUniverseGrid(this.universe.getGrid());
 	}
 
 	public void solve() {
-		this.setButtonsEnabled(false);
 		this.universe.resetUniverse();
 		final Universe universe = this.universe;
 
-		Thread t1 = new Thread(new Runnable() {
+		this.solving = true;
+
+		Thread computeThread = new Thread(new Runnable() {
 		    @Override
 		    public void run() {
 		    	int [] startCoords = universe.getStartCoords();
@@ -208,6 +230,8 @@ public class Grid extends JPanel {
 				int best_filled_boxes = 0;
 				int best_nb_mirrors = 0;
 
+				long lastPrinted = Instant.now().toEpochMilli();
+
 				do {
 					if (universe.canEvolve(currentState)) {
 						stack.push(currentState.copy(universe.possibleChoices(currentState)));
@@ -218,9 +242,9 @@ public class Grid extends JPanel {
 							best_filled_boxes = universe.getFilledBoxes();
 							best_nb_mirrors = universe.getNbMirrors();
 
-							System.out.println(best_filled_boxes + " " + best_nb_mirrors);
-
-							printUniverse();
+							if (Instant.now().toEpochMilli() - lastPrinted > refreshRate) {
+								printUniverseGrid(bestGrid);
+							}
 						}
 					}
 					else if (stack.size() > 0) {
@@ -229,12 +253,13 @@ public class Grid extends JPanel {
 					} else {
 						break;
 					}
-				} while (stack.size() != 0);
+				} while (stack.size() != 0 && solving == true);
 
+				solving = false;
+				Universe.print(bestGrid, width + 2, height + 2, 4, 4);
+				printUniverseGrid(bestGrid);
 		    }
 		});  
-		t1.start();
-
-		this.setButtonsEnabled(true);
+		computeThread.start();
 	}
 }

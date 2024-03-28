@@ -48,6 +48,9 @@ public class Window extends JFrame {
 		JMenu fichierMenu = new JMenu("File");
 		JMenu aideMenu = new JMenu("Help");
 		JMenu toolsMenu = new JMenu("Tools");
+		JMenu solveMenu = new JMenu("Solve");
+		JMenu displayMenu = new JMenu("Display");
+		JMenu refreshRate = new JMenu("Refresh Rate");
 
 		URL newUrl = getClass().getResource("../images/new.png");
 		URL openUrl = getClass().getResource("../images/open.png");
@@ -57,9 +60,9 @@ public class Window extends JFrame {
 		ImageIcon openIcon = new ImageIcon(openUrl.getPath());
 		ImageIcon saveIcon = new ImageIcon(saveUrl.getPath());
 
-		JMenuItem nouveauItem = new JMenuItem("Nouveau", nouveauIcon);
-		JMenuItem ouvrirItem = new JMenuItem("Ouvrir", openIcon);
-		JMenuItem enregistrerItem = new JMenuItem("Enregistrer", saveIcon);
+		JMenuItem nouveauItem = new JMenuItem("New", nouveauIcon);
+		JMenuItem ouvrirItem = new JMenuItem("Open", openIcon);
+		JMenuItem enregistrerItem = new JMenuItem("Save", saveIcon);
 		
 		JMenuItem apropos = new JMenuItem("About");
 		JMenuItem regles = new JMenuItem("Rules");
@@ -75,8 +78,24 @@ public class Window extends JFrame {
 		buttonGroup.add(radioStart);
 
 		JMenuItem changeSize = new JMenuItem("Change Size");
-		JMenuItem solve = new JMenuItem("Solve");
 		JMenuItem reset = new JMenuItem("Reset");
+
+		JMenuItem solve = new JMenuItem("Start");
+		JMenuItem stop = new JMenuItem("Stop");
+
+		JRadioButtonMenuItem radio10ms = new JRadioButtonMenuItem("10ms");
+		JRadioButtonMenuItem radio200ms = new JRadioButtonMenuItem("200ms");
+		JRadioButtonMenuItem radio500ms = new JRadioButtonMenuItem("500ms");
+		JRadioButtonMenuItem radio1000ms = new JRadioButtonMenuItem("1000ms");
+
+		radio10ms.setSelected(true);
+
+		ButtonGroup refreshRates = new ButtonGroup();
+
+		refreshRates.add(radio10ms);
+		refreshRates.add(radio200ms);
+		refreshRates.add(radio500ms);
+		refreshRates.add(radio1000ms);
 		
 		fichierMenu.add(nouveauItem);
 		fichierMenu.add(ouvrirItem);
@@ -94,15 +113,28 @@ public class Window extends JFrame {
 		toolsMenu.addSeparator();
 		toolsMenu.add(reset);
 
+		solveMenu.add(solve);
+		solveMenu.add(stop);
+
+		refreshRate.add(radio10ms);
+		refreshRate.add(radio200ms);
+		refreshRate.add(radio500ms);
+		refreshRate.add(radio1000ms);
+
+		displayMenu.add(refreshRate);
+
 		menuBar.add(fichierMenu);
 		menuBar.add(aideMenu);
 		menuBar.add(toolsMenu);
+		menuBar.add(solveMenu);
+		menuBar.add(displayMenu);
 
 		nouveauItem.addActionListener(e -> {
-			this.universe.changeUniverseDim(5, 5);
 			this.universe.changeUniverseStart(1, 1, 11);
+			this.universe.changeUniverseDim(5, 5);
+			this.universe.resetUniverseObstacles();
 			this.panel.remove(this.grid);
-			this.grid = new Grid(3, 3, this.universe);
+			this.grid = new Grid(3, 3, this.universe, 10);
 			this.panel.add(this.grid);
 			super.pack();
 			super.repaint();
@@ -149,7 +181,7 @@ public class Window extends JFrame {
 				}
 
 				this.panel.remove(this.grid);
-				this.grid = new Grid(universe_width, universe_height, this.universe);
+				this.grid = new Grid(universe_width, universe_height, this.universe, 10);
 				this.panel.add(this.grid);
 				super.pack();
 				super.repaint();
@@ -167,7 +199,7 @@ public class Window extends JFrame {
 
 			this.universe.changeUniverseDim(width + 2, height + 2);
 			this.panel.remove(this.grid);
-			this.grid = new Grid(width, height, this.universe);
+			this.grid = new Grid(width, height, this.universe, 10);
 			this.panel.add(this.grid);
 			super.pack();
 			super.repaint();
@@ -185,11 +217,27 @@ public class Window extends JFrame {
 			this.grid.solve();
 		});
 
+		stop.addActionListener(e -> {
+			this.grid.setSolving(false);
+		});
+
 		reset.addActionListener(e -> {
 			this.grid.reset();
 		});
+
+		radio200ms.addActionListener(e -> {
+			this.grid.setRefreshRate(200);
+		});
+
+		radio500ms.addActionListener(e -> {
+			this.grid.setRefreshRate(500);
+		});
+
+		radio1000ms.addActionListener(e -> {
+			this.grid.setRefreshRate(1000);
+		});
 		
-		this.grid = new Grid(this.universe.getHeight() - 2, this.universe.getWidth() - 2, this.universe); 
+		this.grid = new Grid(this.universe.getHeight() - 2, this.universe.getWidth() - 2, this.universe, 10); 
 		this.panel.add(grid, BorderLayout.CENTER);
 
 		super.setJMenuBar(menuBar);
