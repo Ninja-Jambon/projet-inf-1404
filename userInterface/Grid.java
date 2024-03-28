@@ -64,6 +64,8 @@ public class Grid extends JPanel {
 					if (solving) {
 						return;
 					}
+					
+					this.universe.resetUniverse();
 
 					switch (this.universe.getGrid()[coord_i + 1][coord_j + 1]) {
 						case 0:
@@ -203,6 +205,10 @@ public class Grid extends JPanel {
 		this.printUniverseGrid(this.universe.getGrid());
 	}
 
+	public void alert(String message) {
+		JOptionPane.showMessageDialog(this, message);
+	}
+
 	public void solve() {
 		this.universe.resetUniverse();
 		final Universe universe = this.universe;
@@ -230,7 +236,7 @@ public class Grid extends JPanel {
 				int best_filled_boxes = 0;
 				int best_nb_mirrors = 0;
 
-				long lastPrinted = Instant.now().toEpochMilli();
+				long start = Instant.now().toEpochMilli();
 
 				do {
 					if (universe.canEvolve(currentState)) {
@@ -241,10 +247,7 @@ public class Grid extends JPanel {
 							bestGrid = universe.copyGrid();
 							best_filled_boxes = universe.getFilledBoxes();
 							best_nb_mirrors = universe.getNbMirrors();
-
-							if (Instant.now().toEpochMilli() - lastPrinted > refreshRate) {
-								printUniverseGrid(bestGrid);
-							}
+							printUniverseGrid(bestGrid);
 						}
 					}
 					else if (stack.size() > 0) {
@@ -256,8 +259,8 @@ public class Grid extends JPanel {
 				} while (stack.size() != 0 && solving == true);
 
 				solving = false;
-				Universe.print(bestGrid, width + 2, height + 2, 4, 4);
-				printUniverseGrid(bestGrid);
+				String message = "Solved in  " + ((Instant.now().toEpochMilli() - start)/1000) + "s and " + ((Instant.now().toEpochMilli() - start)%1000) +  "ms \nMirrors : " + best_nb_mirrors + "\nLaser length : " + best_filled_boxes;
+				alert(message);
 		    }
 		});  
 		computeThread.start();

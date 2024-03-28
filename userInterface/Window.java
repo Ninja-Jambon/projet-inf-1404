@@ -109,8 +109,6 @@ public class Window extends JFrame {
 		toolsMenu.addSeparator();
 		toolsMenu.add(changeSize);
 		toolsMenu.addSeparator();
-		toolsMenu.add(solve);
-		toolsMenu.addSeparator();
 		toolsMenu.add(reset);
 
 		solveMenu.add(solve);
@@ -167,6 +165,7 @@ public class Window extends JFrame {
 
 				this.universe.changeUniverseDim(universe_width + 2, universe_height + 2);
 				this.universe.changeUniverseStart(start_i, start_j, start_dir);
+				this.universe.resetUniverseObstacles();
 
 				while (true) {
 					try {
