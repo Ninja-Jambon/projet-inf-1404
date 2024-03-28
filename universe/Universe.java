@@ -403,7 +403,15 @@ public class Universe {
 	}
 
 	public int[][] copyGrid() {
-		return this.grid.clone();
+		int [][] newGrid = new int[this.height][this.width];
+
+		for (int i = 0; i < this.height; i++) {
+			for (int j = 0; j < this.width; j++) {
+				newGrid[i][j] = this.grid[i][j];
+			}
+		} 
+
+		return newGrid;
 	}
 
 	public int getWidth() {

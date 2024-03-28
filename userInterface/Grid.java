@@ -216,6 +216,7 @@ public class Grid extends JPanel {
 		this.solving = true;
 
 		Thread computeThread = new Thread(new Runnable() {
+			int [][] bestGrid;
 		    @Override
 		    public void run() {
 		    	int [] startCoords = universe.getStartCoords();
@@ -232,11 +233,13 @@ public class Grid extends JPanel {
 				Stack <Situation> stack = new Stack <Situation>();
 				Situation currentState = new Situation(firstState_i, firstState_j, start_dir, 0);
 
-				int [][] bestGrid = universe.copyGrid();
+				this.bestGrid = universe.copyGrid();
+				System.out.println(this.bestGrid[2][3] + " " + this.bestGrid + " " + universe.getGrid());
 				int best_filled_boxes = 0;
 				int best_nb_mirrors = 0;
 
 				long start = Instant.now().toEpochMilli();
+				long lastRefresh = start;
 
 				do {
 					if (universe.canEvolve(currentState)) {
@@ -244,10 +247,10 @@ public class Grid extends JPanel {
 						currentState = universe.evolve(currentState);
 
 						if ((universe.getFilledBoxes() > best_filled_boxes) || (universe.getFilledBoxes() == best_filled_boxes && universe.getNbMirrors() < best_nb_mirrors)) {
-							bestGrid = universe.copyGrid();
+							this.bestGrid = universe.copyGrid();
 							best_filled_boxes = universe.getFilledBoxes();
 							best_nb_mirrors = universe.getNbMirrors();
-							printUniverseGrid(bestGrid);
+							//printUniverseGrid(this.bestGrid);
 						}
 					}
 					else if (stack.size() > 0) {
@@ -256,7 +259,14 @@ public class Grid extends JPanel {
 					} else {
 						break;
 					}
+					if (Instant.now().toEpochMilli() - lastRefresh > refreshRate) {
+						lastRefresh = Instant.now().toEpochMilli();
+						printUniverseGrid(this.bestGrid);
+
+					}
 				} while (stack.size() != 0 && solving == true);
+
+				printUniverseGrid(bestGrid);
 
 				solving = false;
 				String message = "Solved in  " + ((Instant.now().toEpochMilli() - start)/1000) + "s and " + ((Instant.now().toEpochMilli() - start)%1000) +  "ms \nMirrors : " + best_nb_mirrors + "\nLaser length : " + best_filled_boxes;
