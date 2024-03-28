@@ -6,6 +6,13 @@ import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.Insets;
 
+import java.io.FileReader;
+import java.io.BufferedReader;
+import java.io.File;
+import java.util.Set;
+import java.util.stream.Stream;
+import java.util.stream.Collectors;
+
 import javax.swing.*;
 import java.awt.event.*;
 import java.awt.*;
@@ -90,6 +97,65 @@ public class Window extends JFrame {
 		menuBar.add(fichierMenu);
 		menuBar.add(aideMenu);
 		menuBar.add(toolsMenu);
+
+		nouveauItem.addActionListener(e -> {
+			this.universe.changeUniverseDim(5, 5);
+			this.universe.changeUniverseStart(1, 1, 11);
+			this.panel.remove(this.grid);
+			this.grid = new Grid(3, 3, this.universe);
+			this.panel.add(this.grid);
+			super.pack();
+			super.repaint();
+		});
+
+		enregistrerItem.addActionListener(e -> {
+			String name = JOptionPane.showInputDialog("Choose the universe name");
+			this.universe.save(name);
+		});
+
+		ouvrirItem.addActionListener(e -> {
+			String message = "Choose the universe among those : ";
+
+			Set<String> files = Stream.of(new File("./saves").listFiles()).filter(file -> !file.isDirectory()).map(File::getName).collect(Collectors.toSet());
+
+			for (String element : files) {
+				message += "\n- " + element.replace(".txt", "");
+			}
+
+			String name = JOptionPane.showInputDialog(message);
+
+			try {
+				BufferedReader reader = new BufferedReader(new FileReader("./saves/" + name + ".txt"));
+				int universe_height = Integer.valueOf(reader.readLine());
+				int universe_width = Integer.valueOf(reader.readLine());
+				int start_dir = Integer.valueOf(reader.readLine());
+				int start_i = Integer.valueOf(reader.readLine());
+				int start_j = Integer.valueOf(reader.readLine());
+
+
+				this.universe.changeUniverseDim(universe_width + 2, universe_height + 2);
+				this.universe.changeUniverseStart(start_i, start_j, start_dir);
+
+				while (true) {
+					try {
+						int pos1 = Integer.valueOf(reader.readLine());
+						int pos2 = Integer.valueOf(reader.readLine());
+
+						this.universe.addObstacle(pos1, pos2);
+					} 
+					catch (Exception error) {
+						break;
+					}
+				}
+
+				this.panel.remove(this.grid);
+				this.grid = new Grid(universe_width, universe_height, this.universe);
+				this.panel.add(this.grid);
+				super.pack();
+				super.repaint();
+			}
+			catch (Exception error) {}
+		});
 		
 		regles.addActionListener(e -> {
 			JOptionPane.showMessageDialog(this, "Définissez la taille du plateau ainsi que l'orientation du laser, enfin ajoutez des obstacles et laissez le programme trouver le bon chemin !");
@@ -118,7 +184,6 @@ public class Window extends JFrame {
 		solve.addActionListener(e -> {
 			this.grid.solve();
 		});
-
 
 		reset.addActionListener(e -> {
 			this.grid.reset();

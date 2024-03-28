@@ -79,6 +79,14 @@ public class Universe {
 						break;
 
 					case 5: 
+						System.out.printf(" /");
+						break;
+
+					case 6: 
+						System.out.printf(" \\");
+						break;
+
+					case 7: 
 						System.out.printf(" \\");
 						break;
 
@@ -295,13 +303,23 @@ public class Universe {
 				this.grid[i][j] = 3;
 			}
 		}
-		if ((c == 3 && d == 10) || (c == 3 && d == 11) || (c == 2 && d == 12) || (c == 2 && d == 13)) {
+		if ((c == 3 && d == 10) || (c == 2 && d == 13)) {
 			this.grid[i][j] = 4;
 			this.filled_boxes ++;
 			this.nb_mirors ++;
 		}
-		if ((c == 2 && d == 10) || (c == 2 && d == 11) || (c == 3 && d == 12) || (c == 3 && d == 13)) {
+		if ((c == 2 && d == 12) || (c == 3 && d == 11)) {
 			this.grid[i][j] = 5;
+			this.filled_boxes ++;
+			this.nb_mirors ++;
+		}
+		if ((c == 2 && d == 10) || (c == 3 && d == 12)) {
+			this.grid[i][j] = 6;
+			this.filled_boxes ++;
+			this.nb_mirors ++;
+		}
+		if ((c == 2 && d == 11) || (c == 3 && d == 13)) {
+			this.grid[i][j] = 7;
 			this.filled_boxes ++;
 			this.nb_mirors ++;
 		}
@@ -340,7 +358,7 @@ public class Universe {
 				this.grid[i][j] = 1;
 			}
 		} else {
-			if (this.grid[i][j] == 4 || this.grid[i][j] == 5) {this.nb_mirors--;}
+			if (this.grid[i][j] == 4 || this.grid[i][j] == 5 || this.grid[i][j] == 6 || this.grid[i][j] == 7) {this.nb_mirors--;}
 			this.filled_boxes--;
 			this.grid[i][j] = 0;
 		}

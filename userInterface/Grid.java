@@ -32,6 +32,7 @@ public class Grid extends JPanel {
 	private JButton[][] mat;
 	private int selected;
 	private Universe universe;
+	private int button_width, button_height;
 
 	public Grid(int width, int height, Universe universe) {
 		super(new GridLayout(height, width));
@@ -39,6 +40,8 @@ public class Grid extends JPanel {
 		this.height = height;
 		this.selected = 0;
 		this.universe = universe;
+		this.button_width = 600 / this.height;
+		this.button_height = button_width;
 
 		this.mat = new JButton[height][width];
 
@@ -46,7 +49,7 @@ public class Grid extends JPanel {
 			for (int j = 0; j < this.width; j++) {
 				this.mat[i][j] = new JButton();
 
-				this.mat[i][j].setPreferredSize(new Dimension(Math.max(50, 600 / this.height), Math.max(50, (this.width * 600 / this.height) / this.width)));
+				this.mat[i][j].setPreferredSize(new Dimension(this.button_width, this.button_height));
 
 				final int coord_i = i;
 				final int coord_j = j;
@@ -118,7 +121,7 @@ public class Grid extends JPanel {
 				Image photo;
 				switch (this.universe.getGrid()[i + 1][j + 1]) {
 					case -1:
-						photo = new ImageIcon(this.getClass().getResource("../images/wall.png")).getImage();
+						photo = new ImageIcon(this.getClass().getResource("../images/wall.png")).getImage().getScaledInstance(this.button_width, this.button_height, Image.SCALE_SMOOTH);
 						this.mat[i][j].setIcon(new ImageIcon(photo));
 						break;
 					case 0:
@@ -126,39 +129,47 @@ public class Grid extends JPanel {
 						this.mat[i][j].setIcon(null);
 						break;
 					case 1: 
-						photo = new ImageIcon(this.getClass().getResource("../images/verticalLaser.png")).getImage();
+						photo = new ImageIcon(this.getClass().getResource("../images/verticalLaser.png")).getImage().getScaledInstance(this.button_width, this.button_height, Image.SCALE_SMOOTH);
 						this.mat[i][j].setIcon(new ImageIcon(photo));
 						break;
 					case 2: 
-						photo = new ImageIcon(this.getClass().getResource("../images/horizontalLaser.png")).getImage();
+						photo = new ImageIcon(this.getClass().getResource("../images/horizontalLaser.png")).getImage().getScaledInstance(this.button_width, this.button_height, Image.SCALE_SMOOTH);
 						this.mat[i][j].setIcon(new ImageIcon(photo));
 						break;
 					case 3:
-						photo = new ImageIcon(this.getClass().getResource("../images/wall.png")).getImage();
+						photo = new ImageIcon(this.getClass().getResource("../images/crossLaser.png")).getImage().getScaledInstance(this.button_width, this.button_height, Image.SCALE_SMOOTH);
 						this.mat[i][j].setIcon(new ImageIcon(photo));
 						break;
-					case 4: 
-						photo = new ImageIcon(this.getClass().getResource("../images/wall.png")).getImage();
+					case 4:
+						photo = new ImageIcon(this.getClass().getResource("../images/miror1.png")).getImage().getScaledInstance(this.button_width, this.button_height, Image.SCALE_SMOOTH);
 						this.mat[i][j].setIcon(new ImageIcon(photo));
 						break;
 					case 5: 
-						photo = new ImageIcon(this.getClass().getResource("../images/wall.png")).getImage();
+						photo = new ImageIcon(this.getClass().getResource("../images/miror2.png")).getImage().getScaledInstance(this.button_width, this.button_height, Image.SCALE_SMOOTH);
+						this.mat[i][j].setIcon(new ImageIcon(photo));
+						break;
+					case 6: 
+						photo = new ImageIcon(this.getClass().getResource("../images/miror3.png")).getImage().getScaledInstance(this.button_width, this.button_height, Image.SCALE_SMOOTH);
+						this.mat[i][j].setIcon(new ImageIcon(photo));
+						break;
+					case 7: 
+						photo = new ImageIcon(this.getClass().getResource("../images/miror4.png")).getImage().getScaledInstance(this.button_width, this.button_height, Image.SCALE_SMOOTH);
 						this.mat[i][j].setIcon(new ImageIcon(photo));
 						break;
 					case 10:
-						photo = new ImageIcon(this.getClass().getResource("../images/startUp.png")).getImage();
+						photo = new ImageIcon(this.getClass().getResource("../images/startUp.png")).getImage().getScaledInstance(this.button_width, this.button_height, Image.SCALE_SMOOTH);
 						this.mat[i][j].setIcon(new ImageIcon(photo));
 						break;
 					case 11:
-						photo = new ImageIcon(this.getClass().getResource("../images/startBot.png")).getImage();
+						photo = new ImageIcon(this.getClass().getResource("../images/startBot.png")).getImage().getScaledInstance(this.button_width, this.button_height, Image.SCALE_SMOOTH);
 						this.mat[i][j].setIcon(new ImageIcon(photo));
 						break;
 					case 12:
-						photo = new ImageIcon(this.getClass().getResource("../images/startRight.png")).getImage();
+						photo = new ImageIcon(this.getClass().getResource("../images/startRight.png")).getImage().getScaledInstance(this.button_width, this.button_height, Image.SCALE_SMOOTH);
 						this.mat[i][j].setIcon(new ImageIcon(photo));
 						break;
 					case 13:
-						photo = new ImageIcon(this.getClass().getResource("../images/startLeft.png")).getImage();
+						photo = new ImageIcon(this.getClass().getResource("../images/startLeft.png")).getImage().getScaledInstance(this.button_width, this.button_height, Image.SCALE_SMOOTH);
 						this.mat[i][j].setIcon(new ImageIcon(photo));
 						break;
 				}
@@ -206,6 +217,8 @@ public class Grid extends JPanel {
 							bestGrid = universe.copyGrid();
 							best_filled_boxes = universe.getFilledBoxes();
 							best_nb_mirrors = universe.getNbMirrors();
+
+							System.out.println(best_filled_boxes + " " + best_nb_mirrors);
 
 							printUniverse();
 						}
