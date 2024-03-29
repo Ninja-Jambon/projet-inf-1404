@@ -232,6 +232,10 @@ public class Window extends JFrame {
 			this.grid.reset();
 		});
 
+		radio10ms.addActionListener(e -> {
+			this.grid.setRefreshRate(10);
+		});
+
 		radio200ms.addActionListener(e -> {
 			this.grid.setRefreshRate(200);
 		});
