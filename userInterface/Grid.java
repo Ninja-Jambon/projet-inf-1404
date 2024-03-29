@@ -37,8 +37,9 @@ public class Grid extends JPanel {
 	private int button_width, button_height;
 	private int refreshRate;
 	private boolean solving;
+	private int display;
 
-	public Grid(int width, int height, Universe universe, int refreshRate) {
+	public Grid(int width, int height, Universe universe, int refreshRate, int display) {
 		super(new GridLayout(height, width));
 		this.width = width;
 		this.height = height;
@@ -48,6 +49,7 @@ public class Grid extends JPanel {
 		this.button_height = button_width;
 		this.refreshRate = refreshRate;
 		this.solving = false;
+		this.display = display;
 
 		this.mat = new JButton[height][width];
 
@@ -125,6 +127,10 @@ public class Grid extends JPanel {
 
 	public void setSolving(boolean solving) {
 		this.solving = solving;
+	}
+
+	public void setDisplay(int display) {
+		this.display = display;
 	}
 
 	public void printUniverseGrid(int [][] universeGrid) {
@@ -245,10 +251,20 @@ public class Grid extends JPanel {
 						stack.push(currentState.copy(universe.possibleChoices(currentState)));
 						currentState = universe.evolve(currentState);
 
+						if (display == 1 && Instant.now().toEpochMilli() - lastRefresh > refreshRate) {
+							lastRefresh = Instant.now().toEpochMilli();
+							printUniverseGrid(universe.getGrid());
+						}
+
 						if ((universe.getFilledBoxes() > best_filled_boxes) || (universe.getFilledBoxes() == best_filled_boxes && universe.getNbMirrors() < best_nb_mirrors)) {
 							this.bestGrid = universe.copyGrid();
 							best_filled_boxes = universe.getFilledBoxes();
 							best_nb_mirrors = universe.getNbMirrors();
+
+							if (display == 2 && Instant.now().toEpochMilli() - lastRefresh > refreshRate) {
+								lastRefresh = Instant.now().toEpochMilli();
+								printUniverseGrid(this.bestGrid);
+							}
 						}
 					}
 					else if (stack.size() > 0) {
@@ -257,9 +273,9 @@ public class Grid extends JPanel {
 					} else {
 						break;
 					}
-					if (Instant.now().toEpochMilli() - lastRefresh > refreshRate) {
+					if (display == 0 && Instant.now().toEpochMilli() - lastRefresh > refreshRate) {
 						lastRefresh = Instant.now().toEpochMilli();
-						printUniverseGrid(this.bestGrid);
+						printUniverseGrid(universe.getGrid());
 					}
 				} while (stack.size() != 0 && solving == true);
 

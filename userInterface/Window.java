@@ -96,6 +96,10 @@ public class Window extends JFrame {
 		refreshRates.add(radio200ms);
 		refreshRates.add(radio500ms);
 		refreshRates.add(radio1000ms);
+
+		JMenuItem displayAll = new JMenuItem("Display progress and regress");
+		JMenuItem displayProgress = new JMenuItem("Display only progress");
+		JMenuItem displayBest = new JMenuItem("Display best grid");
 		
 		fichierMenu.add(nouveauItem);
 		fichierMenu.add(ouvrirItem);
@@ -120,6 +124,10 @@ public class Window extends JFrame {
 		refreshRate.add(radio1000ms);
 
 		displayMenu.add(refreshRate);
+		displayMenu.addSeparator();
+		displayMenu.add(displayAll);
+		displayMenu.add(displayProgress);
+		displayMenu.add(displayBest);
 
 		menuBar.add(fichierMenu);
 		menuBar.add(aideMenu);
@@ -132,7 +140,7 @@ public class Window extends JFrame {
 			this.universe.changeUniverseDim(5, 5);
 			this.universe.resetUniverseObstacles();
 			this.panel.remove(this.grid);
-			this.grid = new Grid(3, 3, this.universe, 10);
+			this.grid = new Grid(3, 3, this.universe, 10, 0);
 			this.panel.add(this.grid);
 			super.pack();
 			super.repaint();
@@ -180,7 +188,7 @@ public class Window extends JFrame {
 				}
 
 				this.panel.remove(this.grid);
-				this.grid = new Grid(universe_width, universe_height, this.universe, 10);
+				this.grid = new Grid(universe_width, universe_height, this.universe, 10, 0);
 				this.panel.add(this.grid);
 				super.pack();
 				super.repaint();
@@ -198,7 +206,7 @@ public class Window extends JFrame {
 
 			this.universe.changeUniverseDim(width + 2, height + 2);
 			this.panel.remove(this.grid);
-			this.grid = new Grid(width, height, this.universe, 10);
+			this.grid = new Grid(width, height, this.universe, 10, 0);
 			this.panel.add(this.grid);
 			super.pack();
 			super.repaint();
@@ -235,8 +243,20 @@ public class Window extends JFrame {
 		radio1000ms.addActionListener(e -> {
 			this.grid.setRefreshRate(1000);
 		});
+
+		displayAll.addActionListener(e -> {
+			this.grid.setDisplay(0);
+		});
+
+		displayProgress.addActionListener(e -> {
+			this.grid.setDisplay(1);
+		});
+
+		displayBest.addActionListener(e -> {
+			this.grid.setDisplay(2);
+		});
 		
-		this.grid = new Grid(this.universe.getHeight() - 2, this.universe.getWidth() - 2, this.universe, 10); 
+		this.grid = new Grid(this.universe.getHeight() - 2, this.universe.getWidth() - 2, this.universe, 10, 0); 
 		this.panel.add(grid, BorderLayout.CENTER);
 
 		super.setJMenuBar(menuBar);
