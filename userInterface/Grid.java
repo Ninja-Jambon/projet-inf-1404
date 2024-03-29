@@ -234,7 +234,6 @@ public class Grid extends JPanel {
 				Situation currentState = new Situation(firstState_i, firstState_j, start_dir, 0);
 
 				this.bestGrid = universe.copyGrid();
-				System.out.println(this.bestGrid[2][3] + " " + this.bestGrid + " " + universe.getGrid());
 				int best_filled_boxes = 0;
 				int best_nb_mirrors = 0;
 
